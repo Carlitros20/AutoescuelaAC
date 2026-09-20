@@ -52,5 +52,23 @@ Profesor y alumnos usan dispositivos distintos y actúan en momentos
 distintos: la cancelación, la oferta y la aceptación deben encontrarse
 en un punto común y accesible en tiempo real.
 
+## Qué habría que calcular
+Ante una cancelación, el sistema debería resolver, sin intervención manual:
+
+- **Filtrar** la lista de alumnos para quedarse con los que están libres
+  en la franja cancelada y todavía necesitan prácticas.
+- **Calcular** si cada candidato puede llegar al punto de recogida a
+  tiempo, según su ubicación y el margen que queda hasta la hora de inicio.
+- **Validar** que la reasignación es posible: duración de la franja,
+  que el alumno no tenga otra clase a esa hora y que el tipo de práctica
+  encaje.
+- **Analizar** a los candidatos que quedan para ordenarlos por prioridad
+  (por ejemplo, prácticas pendientes).
+- **Generar** una propuesta ordenada y **resumirla** para el profesor, de
+  modo que pueda decidir en segundos a quién ofrecer la hora.
+
+Avisar al alumno es solo el último paso; el valor está en decidir
+a quién avisar.
+
 ## Configuración
 La configuración del entorno de desarrollo se detalla en [CONFIGURACION.md](CONFIGURACION.md).
