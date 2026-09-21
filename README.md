@@ -4,8 +4,20 @@
 Soy un profesor de autoescuela.
 
 ## Problema
-Los alumnos a menudo cancelan las prácticas a última hora, por lo tanto pierdo tiempo y dinero
-si no consigo reasignar esa hora a otro alumno que esté cerca y libre rapidamente.
+
+Los alumnos a menudo cancelan las prácticas a última hora, por lo tanto pierdo tiempo y 
+dinero si no consigo reasignar esa hora a otro alumno que esté cerca y libre rapidamente.
+
+**Datos reales del problema: **
+- Clases prácticas de 45 minutos, con 10 o 12 clases al día (unas 50-60 a la semana,
+  suponiendo 5 días lectivos).
+- 25 alumnos en prácticas, que van rotando.
+- Cancelan de media 3 alumnos por semana, y no siempre los mismos.
+- Precio de la clase: unos 25 €.
+
+Con estas cifras se pierden de media 3 × 45 min = 2 h 15 min de clase a la semana, unos 75 €
+(alrededor de 300 € al mes), es decir, entre el 5 % y el 6 % de las clases semanales, además de
+tener el vehículo parado en esa franja.
 
 ![Fotografía de la tarjeta de rol](img/rol-cliente.jpg)
 
