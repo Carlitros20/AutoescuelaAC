@@ -34,6 +34,23 @@ cerca de la ruta en curso. Aparte, en papel, se anota cuántas clases lleva cada
 - Autoescuela: vehículo parado en esa franja.
 - Alumnos con ganas de más prácticas: no saben que ha surgido un hueco.
 
+## Sobre la lógica de negocio
+
+El sistema no se limita a almacenar y consultar datos:
+
+- **Filtra** la lista de alumnos para quedarse con los que están libres en la franja
+  cancelada y todavía necesitan prácticas.
+- **Calcula** si cada candidato puede llegar al punto de recogida a tiempo, según su
+  dirección y el margen que queda hasta la hora de inicio.
+- **Valida** que la reasignación es posible: duración de la franja, que el alumno no tenga
+  otra clase a esa hora y que el tipo de práctica encaje.
+- **Analiza** a los candidatos restantes para ordenarlos por prioridad (por ejemplo,
+  prácticas realizadas).
+- **Genera** una propuesta ordenada y la **resume** para el profesor, de modo que pueda
+  decidir en segundos a quién ofrecer la hora.
+
+Avisar al alumno es solo el último paso; el valor está en decidir a quién avisar.
+
 ## Por qué no basta una aplicación local
 El profesor recibe la cancelación y el sustituto debe recibir y confirmar la propuesta desde su propio móvil, 
 en un momento distinto y sin estar juntos. Sin un punto de acceso común, 
