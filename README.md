@@ -82,5 +82,12 @@ Ante una cancelación, el sistema debería resolver, sin intervención manual:
 Avisar al alumno es solo el último paso; el valor está en decidir
 a quién avisar.
 
+## Planificación del proyecto
+El proyecto se ha planificado en historias de usuario, milestones y user
+journeys, siguiendo el objetivo 1 de la asignatura:
+- [User journeys](docs/user-journeys.md)
+- [Personas](docs/personas.md)
+- [Milestones](docs/milestones.md)
+
 ## Configuración
 La configuración del entorno de desarrollo se detalla en [CONFIGURACION.md](CONFIGURACION.md).
