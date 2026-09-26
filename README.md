@@ -63,6 +63,7 @@ journeys, siguiendo el objetivo 1 de la asignatura:
 - [User journeys](docs/user-journeys.md)
 - [Personas](docs/personas.md)
 - [Milestones](docs/milestones.md)
+- [Historias de usuario](docs/historias-usuario.md)
 
 ## Configuración
 La configuración del entorno de desarrollo se detalla en [CONFIGURACION.md](CONFIGURACION.md).
