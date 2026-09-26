@@ -25,13 +25,15 @@ Incluye [HU001](../../issues/2) y [HU002](../../issues/3).
 
 
 
-**Entregable:** lógica que, dada una cancelación, calcula y ordena candidatos
-por proximidad a la ruta prevista y margen de tiempo disponible, y determina
-el punto de recogida a confirmar.
+**Entregable:** una primera versión de la aplicación que, ante una
+cancelación, propone al profesor una lista de candidatos junto con un punto
+de recogida sugerido para cada uno, permitiéndole confirmar la sustitución en
+menos tiempo del que le lleva hoy hacerlo a mano.
 
 
 
 **Criterio de validez:** dado un conjunto de alumnos con dirección y una
-cancelación con hora y margen, el sistema devuelve una lista ordenada de
-candidatos con su punto de recogida propuesto.
+cancelación con hora y margen, la aplicación devuelve al profesor una lista
+de candidatos con un punto de recogida propuesto para cada uno, y permite
+confirmar la sustitución elegida.
 
