@@ -1,25 +1,32 @@
 # Historias de usuario
 
-## [HU001] — El margen de tiempo condiciona si puedo cubrir el hueco o no
-Como profesor de autoescuela, cuando un alumno cancela con poco margen (menos
-de una hora), pierdo minutos valiosos decidiendo a mano a quién puedo llegar a
-recoger desde donde estaré en ese momento, y muchas veces ese cálculo mental
-me lleva tanto tiempo que la hora se pierde igualmente.
+## [HU001] — Con poco margen no puedo saber a quién llegar a recoger
+Como profesor de autoescuela, cuando un alumno cancela con menos de una hora de
+margen, no dispongo de forma rápida de la información necesaria para saber qué
+alumnos podrían ocupar el hueco. Para servir de sustituto, un alumno tiene que
+estar libre en esa franja y poder ser recogido antes de que empiece la clase. Hoy
+no sé quién está libre a esa hora y solo tengo su dirección en el Excel, así que
+estimo de memoria quién vive cerca de donde estará el coche. Pregunto uno a uno por
+WhatsApp desde el móvil, entre clase y clase, y cada consulta consume minutos del
+margen. Si pasados unos 35 minutos nadie ha confirmado, la hora se pierde. Me
+ocurre de media 3 veces por semana (unas 2 h 15 min de clase perdidas).
 
-## [HU002] — Negociar el punto de recogida por mensajes sueltos me hace perder tiempo
-Como profesor de autoescuela, una vez que encuentro un sustituto, tengo que
-negociar con él por mensajes de WhatsApp dónde nos encontramos exactamente
-(en marcha o en un punto fijo), y esa negociación me resta minutos del margen
-que ya tenía ajustado.
+**Jornada relacionada:** UJ1.
 
-## [HU003] — Cuando se acumulan varias cancelaciones el mismo día, pierdo el control de la ruta
-Como profesor de autoescuela, si se me cancelan dos o más clases el mismo día,
-dejo de poder pensar en cada hueco por separado: tengo que reorganizar de
-cabeza toda la ruta del día para no acabar dando vueltas sin sentido, y eso me
-genera mucho estrés y no siempre lo consigo bien.
+## [HU002] — No sé qué opción de recogida es viable para el sustituto
+Como profesor de autoescuela, cuando tengo un sustituto posible, no sé si puedo
+recogerlo durante la clase en curso o si debe acudir a un punto fijo: depende de
+la ruta del momento y de dónde vive, que solo conozco por la dirección del Excel,
+y lo decido de memoria con el margen ya ajustado.
 
-## [HU004] — No tengo un registro fiable de cuántas clases lleva cada alumno
-Como profesor de autoescuela, apunto en un papel aparte cuántas clases lleva
-cada alumno, y como es un apunte suelto, a veces tengo dudas o tengo que
-repasarlo a mano para decidir si un alumno está preparado para el examen o
-para saber cuánto tiene que pagarme.
+**Jornada relacionada:** UJ1 y UJ2.
+
+## [HU003] — Con varias cancelaciones el mismo día, cada hueco condiciona la ruta del resto
+Como profesor de autoescuela, cuando se me cancelan dos o más clases el mismo día,
+ya no puedo resolver cada hueco por separado: tengo que reorganizar de cabeza la
+ruta de toda la jornada, y eso me provoca un estrés absoluto. En esos casos dejo de
+escribir por WhatsApp, paso a llamar por teléfono e intento citar a todos los
+sustitutos en un punto de encuentro céntrico antes de empezar, en lugar de
+recogerlos durante las clases, para simplificarme la ruta.
+
+**Jornada relacionada:** UJ3

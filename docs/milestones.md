@@ -2,38 +2,24 @@
 
 
 
-## Milestone 0 — Modelo del problema
+## Milestone 0
+### Qué se entrega
+Un modelo del problema descrito en las historias de usuario: el análisis de qué
+elementos intervienen en el problema y cómo se relacionan entre sí, recogido en una
+estructura inicial que sirva de base para empezar a desarrollar. Todavía no incluye
+lógica de negocio. Se entrega junto con el razonamiento que explica cómo se ha
+llegado a él a partir de las historias de usuario.
 
-Incluye [HU004](../../issues/5).
-
-
-
-**Entregable:** documento con el modelo de datos (alumno: nombre, dirección;
-clase: hora, ruta prevista; cancelación: hora del aviso, margen disponible) y
-la estructura para registrar las clases dadas por alumno, sustituyendo el
-apunte en papel.
-
-
-
-**Criterio de validez:** el modelo cubre todos los datos usados por las HU del Milestone 1.
+### Cómo se valida
+Se comprueba que se ha seguido el proceso: cada parte del modelo se explica a partir
+de una historia de usuario y las decisiones tomadas están justificadas por escrito.
 
 
 
-## Milestone 1 — Selección y confirmación de sustituto
+## Milestone 1
+### Qué se entrega
+Una primera versión de la lógica de negocio construida sobre el modelo del
+Milestone 0, junto con las pruebas que comprueban que funciona como se espera.
 
-Incluye [HU001](../../issues/2) y [HU002](../../issues/3).
-
-
-
-**Entregable:** una primera versión de la aplicación que, ante una
-cancelación, propone al profesor una lista de candidatos junto con un punto
-de recogida sugerido para cada uno, permitiéndole confirmar la sustitución en
-menos tiempo del que le lleva hoy hacerlo a mano.
-
-
-
-**Criterio de validez:** dado un conjunto de alumnos con dirección y una
-cancelación con hora y margen, la aplicación devuelve al profesor una lista
-de candidatos con un punto de recogida propuesto para cada uno, y permite
-confirmar la sustitución elegida.
-
+### Cómo se valida
+Las pruebas se superan y cada una se puede relacionar con una historia de usuario.
