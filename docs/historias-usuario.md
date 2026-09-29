@@ -23,7 +23,7 @@ la hora se pierde.
 **Jornadas relacionadas:** UJ1 y UJ2.
 
 ## [HU002] — Con varias cancelaciones el mismo día, cada hueco condiciona la ruta del resto
-Como profesor de autoescuela, cuando se me cancelan dos o más clases el mismo día,
+Como profesor de autoescuela, cuando se me cancelan dos o más clases en una misma jornada,
 ya no puedo resolver cada hueco por separado: lo que decida para uno cambia dónde
 estará el coche en los siguientes, así que tengo que reorganizar de cabeza la ruta
 de toda la jornada. En esos casos intento citar a todos los sustitutos en un punto
