@@ -1,32 +1,35 @@
 # Historias de usuario
 
-## [HU001] — Con poco margen no puedo saber a quién llegar a recoger
-Como profesor de autoescuela, cuando un alumno cancela con menos de una hora de
-margen, no dispongo de forma rápida de la información necesaria para saber qué
-alumnos podrían ocupar el hueco. Para servir de sustituto, un alumno tiene que
-estar libre en esa franja y poder ser recogido antes de que empiece la clase. Hoy
-no sé quién está libre a esa hora y solo tengo su dirección en el Excel, así que
-estimo de memoria quién vive cerca de donde estará el coche. Pregunto uno a uno por
-WhatsApp desde el móvil, entre clase y clase, y cada consulta consume minutos del
-margen. Si pasados unos 35 minutos nadie ha confirmado, la hora se pierde. Me
-ocurre de media 3 veces por semana (unas 2 h 15 min de clase perdidas).
+## [HU001] — Con poco margen, calcular de cabeza qué alumnos llegan a tiempo me hace perder la hora
+Como profesor de autoescuela, cuando un alumno cancela una clase con menos de una
+hora de margen, tengo que averiguar a qué alumnos podría recoger antes de que
+empiece esa clase. Como puedo desviar la ruta de la clase en curso para ir a por el
+sustituto, lo que cuenta es a quién puedo llegar desde donde está el coche en ese
+momento. Lo calculo de cabeza, comparando direcciones del Excel entre clase y clase,
+y ese cálculo consume el propio margen: si se agota antes de dar con un candidato,
+la hora se pierde.
 
-**Jornada relacionada:** UJ1.
+### Datos y conceptos
+- **Alumnos:** Excel con nombre, DNI, teléfono y dirección de cada uno (25 en
+  prácticas). La dirección es el único dato disponible sobre dónde se puede recoger
+  a cada alumno.
+- **Clases:** duran 45 minutos y se dan entre 10 y 12 al día. Cada una tiene una hora
+  de inicio fijada en la agenda del profesor, que es la que determina el margen.
+- **Ubicación del coche:** es la del profesor, que va en él, y se obtiene en cada
+  momento con la localización de su móvil.
+- **Margen:** tiempo que queda desde que llega el aviso de cancelación hasta la hora
+  de inicio de la clase cancelada.
 
-## [HU002] — No sé qué opción de recogida es viable para el sustituto
-Como profesor de autoescuela, cuando tengo un sustituto posible, no sé si puedo
-recogerlo durante la clase en curso o si debe acudir a un punto fijo: depende de
-la ruta del momento y de dónde vive, que solo conozco por la dirección del Excel,
-y lo decido de memoria con el margen ya ajustado.
+**Jornadas relacionadas:** UJ1 y UJ2.
 
-**Jornada relacionada:** UJ1 y UJ2.
-
-## [HU003] — Con varias cancelaciones el mismo día, cada hueco condiciona la ruta del resto
+## [HU002] — Con varias cancelaciones el mismo día, cada hueco condiciona la ruta del resto
 Como profesor de autoescuela, cuando se me cancelan dos o más clases el mismo día,
-ya no puedo resolver cada hueco por separado: tengo que reorganizar de cabeza la
-ruta de toda la jornada, y eso me provoca un estrés absoluto. En esos casos dejo de
-escribir por WhatsApp, paso a llamar por teléfono e intento citar a todos los
-sustitutos en un punto de encuentro céntrico antes de empezar, en lugar de
-recogerlos durante las clases, para simplificarme la ruta.
+ya no puedo resolver cada hueco por separado: lo que decida para uno cambia dónde
+estará el coche en los siguientes, así que tengo que reorganizar de cabeza la ruta
+de toda la jornada. En esos casos intento citar a todos los sustitutos en un punto
+de encuentro céntrico antes de empezar, en lugar de recogerlos durante las clases,
+para simplificarme la ruta.
 
-**Jornada relacionada:** UJ3
+Los datos y conceptos son los mismos que en HU001.
+
+**Jornada relacionada:** UJ3.

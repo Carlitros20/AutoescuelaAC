@@ -1,26 +1,26 @@
 # Milestones
 
 ## Milestone 0
-### Objetivo
-Disponer de un modelo del dominio del problema que sirva de base para empezar a
-desarrollar.
+### Cómo se empaqueta
+Producto interno, que el profesor todavía no usa: código fuente en este
+repositorio que aún no decide qué alumno puede cubrir una clase cancelada, sin
+interfaz de usuario. Lo acompaña un documento de análisis en docs/, donde se razona cómo se
+ha pasado del problema descrito en HU001 al código.
 
-### Qué se entrega
-El modelo del dominio del problema: qué elementos intervienen en él y cómo se
-relacionan entre sí, recogido en una estructura inicial. Todavía no incluye lógica
-de negocio. Se entrega junto con el razonamiento que explica cómo se ha llegado a él.
-
-### Cómo se valida
-Se comprueba que se ha seguido el proceso: las decisiones tomadas para construir el
-modelo están justificadas por escrito.
+### Cómo se comprueba su validez
+Cada término del apartado «Datos y conceptos» de HU001 (alumnos, clases,
+ubicación del coche, margen) tiene, en un documento de análisis en docs/, 
+una decisión anotada: si se lleva al código o se descarta, y por qué.
+Un revisor puede comprobarlo recorriendo esa lista, y comprobando también
+que en el código no aparece nada sin una decisión detrás ni ningún cambio sin un
+issue derivado de HU001.
 
 ## Milestone 1
-### Objetivo
-Disponer de una primera lógica de negocio, verificada, sobre el modelo del dominio.
+### Cómo se empaqueta
+Producto interno: el código del Milestone 0 con una primera lógica de negocio
+orientada al problema de la clase cancelada, sin pretender resolverlo entero, junto
+con tests que se lanzan solos.
 
-### Qué se entrega
-Una primera versión de la lógica de negocio construida sobre el modelo del
-Milestone 0, junto con las pruebas que comprueban que funciona como se espera.
-
-### Cómo se valida
-Las pruebas se superan y cada una se puede relacionar con una historia de usuario.
+### Cómo se comprueba su validez
+Los tests se ejecutan automáticamente y se superan, y los casos que comprueban
+salen de situaciones descritas en HU001 y en sus jornadas de usuario.
