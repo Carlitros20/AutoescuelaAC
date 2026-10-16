@@ -26,6 +26,62 @@ Por orden de prioridad:
 - **Instalar dependencias**: `cargo fetch` descarga las dependencias de `Cargo.lock`
   sin compilarlas.
 
+## Gestor de tareas
+
+### Cargo no sirve como gestor de tareas
+
+Cargo tiene órdenes sueltas (`cargo fetch`, `cargo check`, `cargo test`), pero no un
+fichero de tareas. Lo más parecido son los alias de `.cargo/config.toml`, y se ha
+comprobado que no cubren lo que hace falta:
+
+- Un alias solo se expande a una orden de Cargo con sus argumentos. Un alias
+  `todo = "check && test"` falla con `error: unexpected argument '&&' found`.
+- Un alias no puede llamarse como una orden de Cargo: con `check = "build"`, Cargo
+  avisa de que `user-defined alias 'check' is ignored, because it is shadowed by a
+  built-in command`.
+
+Por eso las tareas van en una herramienta aparte, y Cargo se usa solo como gestor de
+dependencias.
+
+### Alternativas
+
+| | make | just | cargo-make |
+|---|---|---|---|
+| Estándar | Sí, forma parte de POSIX (IEEE Std 1003.1) | No | No |
+| Instalación en el entorno del proyecto | Ya instalado (ver abajo) | `cargo install just --locked`: 96 crates compilados, 60 s, binario de 6,4 MB (v1.59.0) | `cargo install cargo-make`: también se compila desde el código fuente |
+| Formato del fichero | `Makefile`, estable | `justfile`, propio de la herramienta | `Makefile.toml`, propio de la herramienta |
+
+**Por qué make no tiene coste de instalación**: para compilar, Rust necesita un
+enlazador, y la documentación oficial de Rust indica que en Ubuntu se obtiene
+instalando el paquete `build-essential`. Ese paquete depende de `make`
+(`apt-cache depends build-essential`), así que cualquier entorno capaz de compilar el
+proyecto ya tiene make. En el entorno de desarrollo está GNU Make 4.4.1.
+
+### Decisión: make
+
+make es la única de las tres que es un estándar, no añade nada que instalar en un
+entorno donde el proyecto ya compila y su formato no ha cambiado en décadas. just y
+cargo-make ofrecen más funciones, pero el proyecto solo necesita tres tareas de una
+orden cada una, así que esas funciones no compensan compilar e instalar otra
+herramienta.
+
+Inconvenientes asumidos:
+
+- make está pensado para generar ficheros, así que las tareas que no generan ninguno
+  se declaran con `.PHONY`.
+- Las órdenes de cada tarea tienen que ir sangradas con tabuladores.
+- En Windows no viene de serie; el proyecto se desarrolla en WSL, donde sí está.
+
+## Tareas
+
+| Tarea | Orden | Qué hace |
+|---|---|---|
+| `make install` | `cargo fetch` | Descarga las dependencias |
+| `make check` | `cargo check` | Comprueba que los fuentes compilan, sin generar binario ni ejecutar tests |
+| `make test` | `cargo test` | Ejecuta los tests |
+
 ## Fuentes
 
 - [The Cargo Book](https://doc.rust-lang.org/cargo/)
+- [The Rust Programming Language, cap. 1.1: Installation](https://rust-lang.github.io/book/ch01-01-installation.html)
+- [make, especificación POSIX (IEEE Std 1003.1)](https://man.archlinux.org/man/make.1p.en)
