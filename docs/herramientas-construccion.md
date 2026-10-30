@@ -45,11 +45,11 @@ dependencias.
 
 ### Alternativas
 
-| | make | just | cargo-make |
-|---|---|---|---|
-| Estándar | Sí, forma parte de POSIX (IEEE Std 1003.1) | No | No |
-| Instalación en el entorno del proyecto | Ya instalado (ver abajo) | `cargo install just --locked`: 96 crates compilados, 60 s, binario de 6,4 MB (v1.59.0) | `cargo install cargo-make`: también se compila desde el código fuente |
-| Formato del fichero | `Makefile`, estable | `justfile`, propio de la herramienta | `Makefile.toml`, propio de la herramienta |
+| | make | just | cargo-make | cargo-xtask |
+|---|---|---|---|---|
+| Estándar | Sí, forma parte de POSIX (IEEE Std 1003.1) | No | No | No, es una convención: un crate del propio proyecto llamado con un alias de Cargo |
+| Instalación en el entorno del proyecto | Ya instalado (ver abajo) | `cargo install just --locked`: 96 crates compilados, 60 s, binario de 6,4 MB (v1.59.0) | `cargo install cargo-make`: también se compila desde el código fuente | Nada que instalar, pero el crate se compila la primera vez: 0,82 s y un binario de 4,7 MB |
+| Formato del fichero | `Makefile`, estable | `justfile`, propio de la herramienta | `Makefile.toml`, propio de la herramienta | Un programa en Rust (19 líneas para las tres tareas), su `Cargo.toml` y el alias; obliga a convertir el proyecto en un *workspace* |
 
 **Por qué make no tiene coste de instalación**: para compilar, Rust necesita un
 enlazador, y la documentación oficial de Rust indica que en Ubuntu se obtiene
@@ -59,11 +59,13 @@ proyecto ya tiene make. En el entorno de desarrollo está GNU Make 4.4.1.
 
 ### Decisión: make
 
-make es la única de las tres que es un estándar, no añade nada que instalar en un
+make es la única de las cuatro que es un estándar, no añade nada que instalar en un
 entorno donde el proyecto ya compila y su formato no ha cambiado en décadas. just y
 cargo-make ofrecen más funciones, pero el proyecto solo necesita tres tareas de una
 orden cada una, así que esas funciones no compensan compilar e instalar otra
-herramienta.
+herramienta. cargo-xtask no instala nada, pero cada tarea pasa a ser código que hay
+que mantener y cambia la estructura del proyecto, que es justo la deuda técnica que
+se quiere evitar.
 
 Inconvenientes asumidos:
 
@@ -85,3 +87,4 @@ Inconvenientes asumidos:
 - [The Cargo Book](https://doc.rust-lang.org/cargo/)
 - [The Rust Programming Language, cap. 1.1: Installation](https://rust-lang.github.io/book/ch01-01-installation.html)
 - [make, especificación POSIX (IEEE Std 1003.1)](https://man.archlinux.org/man/make.1p.en)
+- [cargo-xtask](https://github.com/matklad/cargo-xtask)
