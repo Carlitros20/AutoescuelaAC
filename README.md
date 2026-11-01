@@ -68,19 +68,4 @@ journeys, siguiendo el objetivo 1 de la asignatura:
 ## Configuración
 La configuración del entorno de desarrollo se detalla en [CONFIGURACION.md](CONFIGURACION.md).
 
-## Lenguaje de Programación
-
-Se ha optado por utilizar Rust por los siguientes motivos:
-
-- El compilador evita inconsistencias. Una clase puede ser cancelada por un alumno en cualquier momento. Y el sistema necesita conocer el instante en el que se ha cancelado. Sin embargo, una clase se crea activa por defecto y sería una inconsistencia que esta tenga un instante de aviso de cancelación, por lo que Rust ofrece el tipo Option para poder añadir el instante de cancelación justo cuando la clase se haya cancelado y no antes, evitando inconsistencias.
-
-- Frente a otros lenguajes que se han barajado, como Go o Java, Rust tiene inmutabilidad por defecto, clave en
-los objetos valor (son inmutables). 
-
-- Mientras que Java tiene "null" y Go "nil", Rust debe gestionar los tipos Option pues si no el código no compila.
-
-- En Go se pueden descartar errores y compilar sin avisos, mientras que en Rust, al ignorar un "Result" salta un aviso.
-
-- Por último, Rust evita "data races", algo necesario al poder consultar tanto profesores como alumnos la aplicación en la nube a la vez
-
 
