@@ -1,10 +1,10 @@
 pub struct Direccion {
-    calle: String,
-    numero: String,
+    latitud: f64,
+    longitud: f64,
 }
 
 impl Direccion {
-    pub(crate) fn new(calle: String, numero: String) -> Self {
-        Direccion { calle, numero }
+    pub(crate) fn new(latitud: f64, longitud: f64) -> Self {
+        Direccion { latitud, longitud}
     }
 }

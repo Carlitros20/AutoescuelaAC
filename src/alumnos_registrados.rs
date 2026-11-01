@@ -16,8 +16,8 @@ impl AlumnosRegistrados {
         }
     }
 
-    pub fn registrar(&mut self, dni: Dni, nombre: String, calle: String, numero: String) {
-        let direccion = Direccion::new(calle, numero);
+    pub fn registrar(&mut self, dni: Dni, nombre: String, latitud: f64, longitud: f64) {
+        let direccion = Direccion::new(latitud, longitud);
         let alumno = Alumno::new(nombre, direccion);
         self.alumnos.insert(dni, alumno);
     }
