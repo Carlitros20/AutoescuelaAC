@@ -21,7 +21,8 @@ impl Agenda {
         self.clases.insert(hora_inicio, Clase::new(dni_alumno));
     }
 
-    pub fn modificar_ubicacion_coche(&mut self, coordenadas: Coordenadas, instante: SystemTime) {
+    pub fn modificar_ubicacion_coche(&mut self, latitud: f64, longitud: f64, instante: SystemTime) {
+        let coordenadas = Coordenadas::new(latitud, longitud);
         self.ubicacion_coche = Some(UbicacionCoche::new(coordenadas, instante));
     }
 }
