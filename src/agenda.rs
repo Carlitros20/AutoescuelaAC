@@ -1,4 +1,3 @@
-use crate::alumnos_registrados::Dni;
 use crate::clase::Clase;
 use crate::coordenadas::Coordenadas;
 use crate::ubicacion_coche::UbicacionCoche;
@@ -18,7 +17,7 @@ impl Agenda {
         }
     }
 
-    pub fn agregar_clase(&mut self, hora_inicio: SystemTime, dni_alumno: Dni) {
+    pub fn agregar_clase(&mut self, hora_inicio: SystemTime, dni_alumno: String) {
         self.clases.insert(hora_inicio, Clase::new(dni_alumno));
     }
 
