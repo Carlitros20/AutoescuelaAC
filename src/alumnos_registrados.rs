@@ -2,28 +2,23 @@ use crate::alumno::Alumno;
 use crate::direccion::Direccion;
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct IdAlumno(u32);
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct Dni(String);
 
 pub struct AlumnosRegistrados {
-    alumnos: HashMap<IdAlumno, Alumno>,
-    siguiente_id: u32,
+    alumnos: HashMap<Dni, Alumno>,
 }
 
 impl AlumnosRegistrados {
     pub fn new() -> Self {
         AlumnosRegistrados {
             alumnos: HashMap::new(),
-            siguiente_id: 1,
         }
     }
 
-    pub fn registrar(&mut self, nombre: String, calle: String, numero: String) -> IdAlumno {
-        let id = IdAlumno(self.siguiente_id);
+    pub fn registrar(&mut self, dni: Dni, nombre: String, calle: String, numero: String) {
         let direccion = Direccion::new(calle, numero);
         let alumno = Alumno::new(nombre, direccion);
-        self.alumnos.insert(id, alumno);
-        self.siguiente_id += 1;
-        id
+        self.alumnos.insert(dni, alumno);
     }
 }

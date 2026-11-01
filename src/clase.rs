@@ -1,15 +1,15 @@
-use crate::alumnos_registrados::IdAlumno;
+use crate::alumnos_registrados::Dni;
 use std::time::SystemTime;
 
 pub struct Clase {
-    alumno_id: IdAlumno,
+    dni_alumno: Dni,
     aviso_cancelacion: Option<SystemTime>,
 }
 
 impl Clase {
-    pub(crate) fn new(alumno_id: IdAlumno) -> Self {
+    pub(crate) fn new(dni_alumno: Dni) -> Self {
         Clase {
-            alumno_id,
+            dni_alumno,
             aviso_cancelacion: None,
         }
     }

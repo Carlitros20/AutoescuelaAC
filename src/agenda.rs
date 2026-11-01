@@ -1,4 +1,4 @@
-use crate::alumnos_registrados::IdAlumno;
+use crate::alumnos_registrados::Dni;
 use crate::clase::Clase;
 use crate::ubicacion_coche::UbicacionCoche;
 use std::collections::BTreeMap;
@@ -17,8 +17,8 @@ impl Agenda {
         }
     }
 
-    pub fn agregar_clase(&mut self, hora_inicio: SystemTime, id_alumno: IdAlumno) {
-        self.clases.insert(hora_inicio, Clase::new(id_alumno));
+    pub fn agregar_clase(&mut self, hora_inicio: SystemTime, dni_alumno: Dni) {
+        self.clases.insert(hora_inicio, Clase::new(dni_alumno));
     }
 
     pub fn modificar_ubicacion_coche(&mut self, latitud: f64, longitud: f64, instante: SystemTime) {
