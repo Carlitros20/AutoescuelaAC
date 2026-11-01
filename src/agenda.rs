@@ -1,5 +1,6 @@
 use crate::alumnos_registrados::Dni;
 use crate::clase::Clase;
+use crate::coordenadas::Coordenadas;
 use crate::ubicacion_coche::UbicacionCoche;
 use std::collections::BTreeMap;
 use std::time::SystemTime;
@@ -21,7 +22,7 @@ impl Agenda {
         self.clases.insert(hora_inicio, Clase::new(dni_alumno));
     }
 
-    pub fn modificar_ubicacion_coche(&mut self, latitud: f64, longitud: f64, instante: SystemTime) {
-        self.ubicacion_coche = Some(UbicacionCoche::new(latitud, longitud, instante));
+    pub fn modificar_ubicacion_coche(&mut self, coordenadas: Coordenadas, instante: SystemTime) {
+        self.ubicacion_coche = Some(UbicacionCoche::new(coordenadas, instante));
     }
 }

@@ -1,17 +1,13 @@
+use crate::coordenadas::Coordenadas;
 use std::time::SystemTime;
 
 pub struct UbicacionCoche {
-    latitud: f64,
-    longitud: f64,
+    ubi: Coordenadas,
     instante: SystemTime,
 }
 
 impl UbicacionCoche {
-    pub(crate) fn new(latitud: f64, longitud: f64, instante: SystemTime) -> Self {
-        UbicacionCoche {
-            latitud,
-            longitud,
-            instante,
-        }
+    pub(crate) fn new(ubi: Coordenadas, instante: SystemTime) -> Self {
+        UbicacionCoche { ubi, instante }
     }
 }

@@ -1,10 +1,10 @@
-pub struct Direccion {
+pub struct Coordenadas {
     latitud: f64,
     longitud: f64,
 }
 
-impl Direccion {
+impl Coordenadas {
     pub(crate) fn new(latitud: f64, longitud: f64) -> Self {
-        Direccion { latitud, longitud}
+        Coordenadas { latitud, longitud }
     }
 }

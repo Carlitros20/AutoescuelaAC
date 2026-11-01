@@ -1,5 +1,4 @@
-use crate::alumno::Alumno;
-use crate::direccion::Direccion;
+use crate::{alumno::Alumno, coordenadas::Coordenadas};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -40,8 +39,8 @@ impl AlumnosRegistrados {
         if self.alumnos.contains_key(&dni) {
             return Err(format!("ya existe un alumno con DNI {:?}", dni));
         }
-        let direccion = Direccion::new(latitud, longitud);
-        let alumno = Alumno::new(nombre, direccion);
+        let ubi = Coordenadas::new(latitud, longitud);
+        let alumno = Alumno::new(nombre, ubi);
         self.alumnos.insert(dni, alumno);
         Ok(())
     }
