@@ -1,3 +1,5 @@
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+
 pub struct Dni {
     numero: u32,
     letra: char,
