@@ -19,10 +19,19 @@ Por orden de prioridad:
 
 - **Estándar**: es el gestor de paquetes oficial de Rust. Las dependencias se declaran
   en `Cargo.toml` y sus versiones exactas quedan fijadas en `Cargo.lock`.
-- **Coste de instalación**: ninguno. Se instala con la propia toolchain que fija
-  `rust-toolchain.toml`.
-- **Alternativas**: no hay otro gestor de paquetes para el registro de crates de Rust;
-  prescindir de Cargo supondría descargar y compilar las dependencias a mano.
+- **Coste de instalación**: viene con la toolchain de Rust, sin nada más que instalar.
+  En la imagen `rust:1.99-slim` ya está Cargo 1.99.1, pero `rust-toolchain.toml` fija
+  la 1.99.0, así que el primer `cargo fetch` la descarga: 12,1 s y 593 MB. Con ella ya
+  instalada, `cargo fetch` tarda 0,03 s ([captura](../img/cargo-rust-slim.png)). El
+  coste viene de la versión fijada, no de Cargo.
+- **Alternativas**: las que aparecen al buscar alternativas a Cargo para Rust no lo
+  sustituyen como gestor de dependencias:
+  - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): Reindeer
+    resuelve y descarga las dependencias con Cargo, a partir de `Cargo.toml` y
+    `Cargo.lock`, y solo sustituye la compilación. Añade Buck2 y Reindeer.
+  - [Bazel con rules_rust (crate_universe)](https://docs.aspect.build/bazelbuild/rules_rust/eb06a7974f448b3a2199d490282906d698c2d316/docs/crate_universe):
+    resuelve las dependencias con Cargo por debajo, añade Bazel y está marcado como
+    experimental.
 - **Instalar dependencias**: `cargo fetch` descarga las dependencias de `Cargo.lock`
   sin compilarlas.
 
