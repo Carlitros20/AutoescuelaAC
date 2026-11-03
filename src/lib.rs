@@ -1,3 +1,4 @@
+pub mod agenda;
 pub mod alumno;
 pub mod alumnos_registrados;
 pub mod clase;
