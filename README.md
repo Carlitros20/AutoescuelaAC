@@ -57,6 +57,39 @@ en un momento distinto y sin estar juntos. Sin un punto de acceso común,
 disponible desde ambos dispositivos en tiempo real, esos dos hechos
 no pueden encontrarse a tiempo dentro del margen disponible.
 
+## Entidad que se comprueba
+`Alumno` ([`src/alumno.rs`](src/alumno.rs)) representa a cada alumno en prácticas: su
+nombre y las coordenadas del punto donde se le recoge. Los alumnos se guardan en
+`AlumnosRegistrados`, en un mapa por DNI, y las clases de la agenda solo guardan el DNI
+del alumno, así que los datos de cada alumno están en un único sitio.
+
+En el servicio web, cuando se cancele una clase, las coordenadas de recogida de cada
+alumno, junto con la ubicación del coche, servirán para calcular a qué alumnos puede
+llegar el profesor antes de la hora de inicio de esa clase y proponerlos como sustitutos.
+
+## Instalación y comprobación
+Hace falta:
+- [rustup](https://rustup.rs). La versión de Rust del proyecto (1.99.0) está fijada en
+  `rust-toolchain.toml`, y rustup la instala sola la primera vez que se usa.
+- make, que en Ubuntu viene con el paquete `build-essential`, el mismo que Rust necesita
+  para enlazar.
+
+```sh
+git clone https://github.com/Carlitros20/AutoescuelaAC.git
+cd AutoescuelaAC
+make install
+make check
+make test
+```
+
+- `git clone` descarga el repositorio y `cd` entra en su directorio, desde el que se
+  ejecutan las demás órdenes.
+- `make install` descarga las dependencias del proyecto.
+- `make check` comprueba que los fuentes compilan, sin generar ningún ejecutable.
+- `make test` ejecuta los tests.
+
+Por qué se usan Cargo y make: [herramientas de construcción](docs/herramientas-construccion.md).
+
 ## Planificación del proyecto
 El proyecto se ha planificado en historias de usuario, milestones y user
 journeys, siguiendo el objetivo 1 de la asignatura:
