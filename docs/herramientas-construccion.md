@@ -35,6 +35,14 @@ Por orden de prioridad:
 - **Instalar dependencias**: `cargo fetch` descarga las dependencias de `Cargo.lock`
   sin compilarlas.
 
+### Decisión: Cargo
+
+Es el gestor estándar de Rust, y las alternativas encontradas no lo sustituyen: Buck2
+con Reindeer y Bazel con rules_rust resuelven las dependencias con Cargo por debajo y
+además añaden otro sistema de construcción. El único coste medido, 12,1 s la primera
+vez en `rust:1.99-slim`, se debe a la versión que fija `rust-toolchain.toml`, no a
+Cargo.
+
 ## Gestor de tareas
 
 ### Cargo no sirve como gestor de tareas
