@@ -62,11 +62,24 @@ dependencias.
 
 ### Alternativas
 
-| | make | just | cargo-make | cargo-xtask |
-|---|---|---|---|---|
-| Estándar | Sí, forma parte de POSIX (IEEE Std 1003.1) | No | No | No, es una convención: un crate del propio proyecto llamado con un alias de Cargo |
-| Instalación en el entorno del proyecto | No viene en `rust:1.99-slim`: `apt-get update` e instalar el paquete `make` (sin compilar) tarda 3,3 s y ocupa 1,8 MB ([captura](../img/make-rust-slim.png)) | `cargo install just --locked` en `rust:1.99-slim`: 96 crates compilados, 61,5 s, binario de 6,2 MB (v1.59.0) ([captura](../img/just-rust-slim.png)) | `cargo install cargo-make --locked` en `rust:1.99-slim`: 182 crates compilados, 74,2 s, binario de 9,7 MB más un segundo ejecutable, `makers` (v0.37.24) ([captura](../img/cargo-make-rust-slim.png)) | Nada que instalar, pero el crate se compila la primera vez; en `rust:1.99-slim`, 0,15 s y un binario de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)) |
-| Formato del fichero | `Makefile`, estable | `justfile`, propio de la herramienta | `Makefile.toml`, propio de la herramienta | Un programa en Rust (19 líneas para las tres tareas), su `Cargo.toml` y el alias; obliga a convertir el proyecto en un *workspace* |
+- **make**: es un estándar, forma parte de POSIX (IEEE Std 1003.1). No viene en
+  `rust:1.99-slim`: `apt-get update` e instalar el paquete `make`, sin compilar nada,
+  tarda 3,3 s y ocupa 1,8 MB ([captura](../img/make-rust-slim.png)). Las tareas van en
+  un `Makefile`, un formato estable.
+- **just**: no es un estándar. `cargo install just --locked` en `rust:1.99-slim`
+  compila 96 crates en 61,5 s y deja un binario de 6,2 MB (v1.59.0)
+  ([captura](../img/just-rust-slim.png)). Las tareas van en un `justfile`, un formato
+  propio de la herramienta.
+- **cargo-make**: no es un estándar. `cargo install cargo-make --locked` en
+  `rust:1.99-slim` compila 182 crates en 74,2 s y deja un binario de 9,7 MB más un
+  segundo ejecutable, `makers` (v0.37.24) ([captura](../img/cargo-make-rust-slim.png)).
+  Las tareas van en un `Makefile.toml`, un formato propio de la herramienta.
+- **cargo-xtask**: no es un estándar, sino una convención: un crate del propio
+  proyecto al que se llama con un alias de Cargo. No hay nada que instalar, pero el
+  crate se compila la primera vez; en `rust:1.99-slim` tarda 0,15 s y deja un binario
+  de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)). Las tareas son un programa
+  en Rust (19 líneas para las tres tareas), con su `Cargo.toml` y el alias, y obliga a
+  convertir el proyecto en un *workspace*.
 
 ### Decisión: make
 
@@ -89,11 +102,10 @@ Inconvenientes asumidos:
 
 ## Tareas
 
-| Tarea | Orden | Qué hace |
-|---|---|---|
-| `make install` | `cargo fetch` | Descarga las dependencias |
-| `make check` | `cargo check` | Comprueba que los fuentes compilan, sin generar binario ni ejecutar tests |
-| `make test` | `cargo test` | Ejecuta los tests |
+- `make install` ejecuta `cargo fetch`, que descarga las dependencias.
+- `make check` ejecuta `cargo check`, que comprueba que los fuentes compilan, sin
+  generar el binario ni ejecutar los tests.
+- `make test` ejecuta `cargo test`, que ejecuta los tests.
 
 ## Fuentes
 
