@@ -86,7 +86,12 @@ dependencias.
   crate se compila la primera vez; en `rust:1.99-slim` tarda 0,15 s y deja un binario
   de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)). Las tareas son un programa
   en Rust (19 líneas para las tres tareas), con su `Cargo.toml` y el alias, y obliga a
-  convertir el proyecto en un *workspace*.
+  convertir el proyecto en un *workspace*. En `rust:1.99-slim`, con un prototipo
+  equivalente, `cargo check` a secas tarda 0,076 s. Tras un `cargo clean`, que también
+  borra el binario de `xtask`, `cargo xtask check` tarda 0,193 s, porque vuelve a
+  compilarlo: unos 0,12 s más, que es lo que costaría en cada contenedor nuevo. Con
+  `xtask` ya compilado tarda 0,050 s, sin tiempo añadido apreciable
+  ([captura](../img/cargo-xtask-check-rust-slim.png)).
 
 ### Decisión: make
 
