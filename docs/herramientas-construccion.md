@@ -71,7 +71,9 @@ dependencias.
 - **just**: no es un estándar. `cargo install just --locked` en `rust:1.99-slim`
   compila 96 crates en 61,5 s y deja un binario de 6,2 MB (v1.59.0)
   ([captura](../img/just-rust-slim.png)). Las tareas van en un `justfile`, un formato
-  propio de la herramienta.
+  propio de la herramienta. En `rust:1.99-slim`, con el proyecto recién limpiado
+  (`cargo clean`), `just check` tarda 0,082 s, y `cargo check` a secas 0,079 s: just
+  no añade un tiempo apreciable ([captura](../img/just-check-rust-slim.png)).
 - **cargo-make**: no es un estándar. `cargo install cargo-make --locked` en
   `rust:1.99-slim` compila 182 crates en 74,2 s y deja un binario de 9,7 MB más un
   segundo ejecutable, `makers` (v0.37.24) ([captura](../img/cargo-make-rust-slim.png)).
