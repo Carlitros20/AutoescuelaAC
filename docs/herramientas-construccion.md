@@ -65,7 +65,9 @@ dependencias.
 - **make**: es un estándar, forma parte de POSIX (IEEE Std 1003.1). No viene en
   `rust:1.99-slim`: `apt-get update` e instalar el paquete `make`, sin compilar nada,
   tarda 3,3 s y ocupa 1,8 MB ([captura](../img/make-rust-slim.png)). Las tareas van en
-  un `Makefile`, un formato estable.
+  un `Makefile`, un formato estable. En `rust:1.99-slim`, con el proyecto recién
+  limpiado (`cargo clean`), `make check` tarda 0,062 s, y `cargo check` a secas 0,065 s:
+  make no añade un tiempo apreciable ([captura](../img/make-check-rust-slim.png)).
 - **just**: no es un estándar. `cargo install just --locked` en `rust:1.99-slim`
   compila 96 crates en 61,5 s y deja un binario de 6,2 MB (v1.59.0)
   ([captura](../img/just-rust-slim.png)). Las tareas van en un `justfile`, un formato
