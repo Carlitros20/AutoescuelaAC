@@ -77,7 +77,10 @@ dependencias.
 - **cargo-make**: no es un estándar. `cargo install cargo-make --locked` en
   `rust:1.99-slim` compila 182 crates en 74,2 s y deja un binario de 9,7 MB más un
   segundo ejecutable, `makers` (v0.37.24) ([captura](../img/cargo-make-rust-slim.png)).
-  Las tareas van en un `Makefile.toml`, un formato propio de la herramienta.
+  Las tareas van en un `Makefile.toml`, un formato propio de la herramienta. En
+  `rust:1.99-slim`, con el proyecto recién limpiado (`cargo clean`), `cargo make check`
+  tarda 0,210 s, y `cargo check` a secas 0,069 s: cargo-make añade unos 0,14 s en cada
+  ejecución ([captura](../img/cargo-make-check-rust-slim.png)).
 - **cargo-xtask**: no es un estándar, sino una convención: un crate del propio
   proyecto al que se llama con un alias de Cargo. No hay nada que instalar, pero el
   crate se compila la primera vez; en `rust:1.99-slim` tarda 0,15 s y deja un binario
