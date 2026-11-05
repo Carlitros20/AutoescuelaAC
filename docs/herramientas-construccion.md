@@ -36,9 +36,14 @@ Por orden de prioridad:
     que descargar, como el proyecto ahora, `reindeer vendor` tarda 0,080 s y
     `reindeer buckify` 0,093 s ([captura](../img/buck2-reindeer-rust-slim.png)). No se
     ha medido `buck2 build`, porque aquí se comparan las dependencias, no la compilación.
-  - [Bazel con rules_rust (crate_universe)](https://docs.aspect.build/bazelbuild/rules_rust/eb06a7974f448b3a2199d490282906d698c2d316/docs/crate_universe):
-    resuelve las dependencias con Cargo por debajo, añade Bazel y está marcado como
-    experimental.
+  - [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
+    resuelve las dependencias con Cargo por debajo: al resolverlas llama a `cargo fetch`,
+    `cargo metadata` y `cargo tree`, y sin Cargo falla. Además, no usa la versión 1.99.0
+    fijada en `rust-toolchain.toml`, sino que descarga su propia Cargo 1.99.1. En
+    `rust:1.99-slim`, instalar `curl` y descargar Bazel 9.3.1 tarda 19,2 s y ocupa 74 MB.
+    El primer `bazel fetch` de rules_rust 0.75.0, sin dependencias que descargar, tarda
+    57,3 s y deja 1,4 GB en la caché de Bazel; el segundo tarda 0,188 s
+    ([captura](../img/bazel-rules-rust-rust-slim.png)).
 - **Instalar dependencias**: `cargo fetch` descarga las dependencias de `Cargo.lock`
   sin compilarlas.
 
