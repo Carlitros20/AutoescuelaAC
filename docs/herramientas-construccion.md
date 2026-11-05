@@ -104,6 +104,14 @@ dependencias.
   compilarlo: unos 0,12 s más, que es lo que costaría en cada contenedor nuevo. Con
   `xtask` ya compilado tarda 0,050 s, sin tiempo añadido apreciable
   ([captura](../img/cargo-xtask-check-rust-slim.png)).
+- **mise**: no es un estándar. En `rust:1.99-slim`, `cargo install mise --locked` falla
+  porque le falta un compilador de C++ ([captura](../img/mise-sin-paquetes-rust-slim.png)).
+  Instalando antes `g++`, `cmake`, `pkg-config` y `libssl-dev`, todo el proceso tarda
+  10 min 45 s, compila 995 crates y deja un binario de 275 MB (v2026.11.2). Las tareas
+  van en un `mise.toml`, un formato propio de la herramienta. Con el proyecto recién
+  limpiado (`cargo clean`), `mise run check` tarda 0,095 s, y `cargo check` a secas
+  0,067 s: mise añade unos 0,03 s en cada ejecución
+  ([captura](../img/mise-rust-slim.png)).
 
 ### Decisión: make
 
