@@ -38,7 +38,8 @@ Por orden de prioridad:
     ha medido `buck2 build`, porque aquí se comparan las dependencias, no la compilación.
   - [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
     resuelve las dependencias con Cargo por debajo: al resolverlas llama a `cargo fetch`,
-    `cargo metadata` y `cargo tree`, y sin Cargo falla. Además, no usa la versión 1.99.0
+    `cargo metadata` y `cargo tree`, y si se le quita el binario de Cargo, `bazel fetch`
+    falla (es el error del final de la captura). Además, no usa la versión 1.99.0
     fijada en `rust-toolchain.toml`, sino que descarga su propia Cargo 1.99.1. En
     `rust:1.99-slim`, instalar `curl` y descargar Bazel 9.3.1 tarda 19,2 s y ocupa 74 MB.
     El primer `bazel fetch` de rules_rust 0.75.0, sin dependencias que descargar, tarda
@@ -49,11 +50,14 @@ Por orden de prioridad:
 
 ### Decisión: Cargo
 
-Es el gestor estándar de Rust, y las alternativas encontradas no lo sustituyen: Buck2
-con Reindeer y Bazel con rules_rust resuelven las dependencias con Cargo por debajo y
-además añaden otro sistema de construcción. El único coste medido, 12,1 s la primera
-vez en `rust:1.99-slim`, se debe a la versión que fija `rust-toolchain.toml`, no a
-Cargo.
+Es el gestor estándar de Rust, y las alternativas medidas no lo sustituyen: las dos
+siguen necesitando Cargo y además añaden otro sistema de construcción. Buck2 con
+Reindeer descarga las dependencias sin Cargo, pero lo necesita para generar las reglas
+de Buck2, y suma 164 MB de binarios. Bazel con rules_rust resuelve las dependencias con
+Cargo, y la primera descarga tarda 57,3 s, deja 1,4 GB en la caché y trae una versión
+de Cargo distinta de la fijada, así que habría que fijarla en otro sitio más. El único
+coste medido de Cargo, 12,1 s la primera vez en `rust:1.99-slim`, se debe a la versión
+que fija `rust-toolchain.toml`, no a Cargo.
 
 ## Gestor de tareas
 
