@@ -54,9 +54,9 @@ formatos son los estándar del lenguaje, y el único coste medido, 12,1 s la pri
 Por orden de prioridad:
 
 1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
-2. **Deuda técnica**: que esté mantenida y que su formato no obligue a rehacer el
-   fichero más adelante.
-3. **Coste de instalación y de ejecución**, medido en el entorno del proyecto.
+2. **Deuda técnica**: que su formato no obligue a rehacer el fichero más adelante.
+3. **Coste de instalación**, medido en el entorno del proyecto.
+4. **Coste de ejecución**, medido en el entorno del proyecto.
 
 ### Herramientas consideradas
 
@@ -108,7 +108,8 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
   - **Coste de instalación**: `cargo install mise --locked` falla porque le falta un
     compilador de C++ ([captura](../img/mise-sin-paquetes-rust-slim.png)). Instalando
     antes `g++`, `cmake`, `pkg-config` y `libssl-dev`, todo el proceso tarda 10 min 45 s,
-    compila 995 crates y deja un binario de 275 MB (v2026.11.2).
+    compila 995 crates y deja un binario de 275 MB (v2026.11.2)
+    ([captura](../img/mise-rust-slim.png)).
   - **Coste de ejecución**: `mise run check` tarda 0,095 s, y `cargo check` 0,067 s:
     añade unos 0,03 s en cada ejecución ([captura](../img/mise-rust-slim.png)).
 
