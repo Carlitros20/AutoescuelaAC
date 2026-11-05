@@ -26,12 +26,9 @@ Por orden de prioridad:
   coste viene de la versión fijada, no de Cargo.
 - **Alternativas**: las que aparecen al buscar alternativas a Cargo para Rust no lo
   sustituyen como gestor de dependencias:
-  - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): las
-    dependencias se declaran en un `Cargo.toml`. `reindeer vendor` las resuelve y
-    descarga sin Cargo, pero `reindeer buckify`, que genera las reglas de Buck2, falla
-    si Cargo no está, porque ejecuta `cargo metadata`
-    ([captura](../img/reindeer-sin-cargo-rust-slim.png)). Además, está pensado para
-    gestionar dependencias en un monorepo, y este proyecto no lo es.
+  - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): según su
+    documentación, Reindeer genera reglas para Buck2, otra herramienta de construcción,
+    y está pensado para gestionar dependencias en un monorepo, y este proyecto no lo es.
   - [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
     según su documentación, usa Cargo para generar reglas de Bazel, otra herramienta de
     construcción, así que no sustituye a Cargo.
