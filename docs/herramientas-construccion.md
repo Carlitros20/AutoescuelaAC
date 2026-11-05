@@ -26,9 +26,16 @@ Por orden de prioridad:
   coste viene de la versión fijada, no de Cargo.
 - **Alternativas**: las que aparecen al buscar alternativas a Cargo para Rust no lo
   sustituyen como gestor de dependencias:
-  - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): Reindeer
-    resuelve y descarga las dependencias con Cargo, a partir de `Cargo.toml` y
-    `Cargo.lock`, y solo sustituye la compilación. Añade Buck2 y Reindeer.
+  - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): las
+    dependencias se declaran en un `Cargo.toml`. `reindeer vendor` las resuelve y
+    descarga sin Cargo, pero `reindeer buckify`, que genera las reglas de Buck2, falla
+    si Cargo no está, porque ejecuta `cargo metadata`
+    ([captura](../img/reindeer-sin-cargo-rust-slim.png)). En `rust:1.99-slim`, instalar
+    `curl` y `zstd` y descargar los binarios ya compilados, sin compilar nada, tarda
+    11,6 s y ocupa 130 MB `buck2` y 34 MB `reindeer` (v2026.10.05.00). Sin dependencias
+    que descargar, como el proyecto ahora, `reindeer vendor` tarda 0,080 s y
+    `reindeer buckify` 0,093 s ([captura](../img/buck2-reindeer-rust-slim.png)). No se
+    ha medido `buck2 build`, porque aquí se comparan las dependencias, no la compilación.
   - [Bazel con rules_rust (crate_universe)](https://docs.aspect.build/bazelbuild/rules_rust/eb06a7974f448b3a2199d490282906d698c2d316/docs/crate_universe):
     resuelve las dependencias con Cargo por debajo, añade Bazel y está marcado como
     experimental.
