@@ -42,14 +42,9 @@ consideran porque no son gestores de dependencias:
 
 ### Decisión: Cargo
 
-Es el gestor estándar de Rust, y las alternativas medidas no lo sustituyen: las dos
-siguen necesitando Cargo y además añaden otro sistema de construcción. Buck2 con
-Reindeer descarga las dependencias sin Cargo, pero lo necesita para generar las reglas
-de Buck2, y suma 164 MB de binarios. Bazel con rules_rust resuelve las dependencias con
-Cargo, y la primera descarga tarda 57,3 s, deja 1,4 GB en la caché y trae una versión
-de Cargo distinta de la fijada, así que habría que fijarla en otro sitio más. El único
-coste medido de Cargo, 12,1 s la primera vez en `rust:1.99-slim`, se debe a la versión
-que fija `rust-toolchain.toml`, no a Cargo.
+Cargo es el gestor oficial de Rust y el único gestor de dependencias considerado. Sus
+formatos son los estándar del lenguaje, y el único coste medido, 12,1 s la primera vez en
+`rust:1.99-slim`, se debe a la versión que fija `rust-toolchain.toml`, no a Cargo.
 
 ## Gestor de tareas
 
