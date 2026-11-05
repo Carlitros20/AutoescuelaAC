@@ -61,22 +61,7 @@ que fija `rust-toolchain.toml`, no a Cargo.
 
 ## Gestor de tareas
 
-### Cargo no sirve como gestor de tareas
-
-Cargo tiene órdenes sueltas (`cargo fetch`, `cargo check`, `cargo test`), pero no un
-fichero de tareas. Lo más parecido son los alias de `.cargo/config.toml`, y se ha
-comprobado que no cubren lo que hace falta:
-
-- Un alias solo se expande a una orden de Cargo con sus argumentos. Un alias
-  `todo = "check && test"` falla con `error: unexpected argument '&&' found`.
-- Un alias no puede llamarse como una orden de Cargo: con `check = "build"`, Cargo
-  avisa de que `user-defined alias 'check' is ignored, because it is shadowed by a
-  built-in command`.
-
-Por eso las tareas van en una herramienta aparte, y Cargo se usa solo como gestor de
-dependencias.
-
-### Alternativas
+### Herramientas consideradas
 
 - **make**: es un estándar, forma parte de POSIX (IEEE Std 1003.1). No viene en
   `rust:1.99-slim`: `apt-get update` e instalar el paquete `make`, sin compilar nada,
