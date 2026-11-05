@@ -12,9 +12,9 @@ Windows, WSL con Ubuntu) y la versión de Rust es la 1.99.0, fijada en
 Por orden de prioridad:
 
 1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
-2. **Deuda técnica**: que esté mantenida y que su formato no obligue a rehacer el
-   fichero más adelante.
-3. **Coste de instalación y de ejecución**, medido en el entorno del proyecto.
+2. **Deuda técnica**: que su formato no obligue a rehacer el fichero más adelante.
+3. **Coste de instalación**, medido en el entorno del proyecto.
+4. **Coste de ejecución**, medido en el entorno del proyecto.
 
 ### Herramientas consideradas
 
@@ -26,7 +26,8 @@ Por orden de prioridad:
   - **Coste de instalación**: viene con la toolchain de Rust, sin nada más que
     instalar. En la imagen `rust:1.99-slim` ya está Cargo 1.99.1, pero
     `rust-toolchain.toml` fija la 1.99.0, así que el primer `cargo fetch` la descarga:
-    12,1 s y 593 MB. El coste viene de la versión fijada, no de Cargo.
+    12,1 s y 593 MB ([captura](../img/cargo-rust-slim.png)). El coste viene de la versión
+    fijada, no de Cargo.
   - **Coste de ejecución**: con esa versión ya instalada, `cargo fetch` tarda 0,03 s
     ([captura](../img/cargo-rust-slim.png)).
 
@@ -34,8 +35,8 @@ Al buscar gestores de dependencias para Rust también aparecen estas opciones, q
 consideran porque no son gestores de dependencias:
 
 - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): según su
-  documentación, Reindeer genera reglas para Buck2, otra herramienta de construcción,
-  y está pensado para gestionar dependencias en un monorepo, y este proyecto no lo es.
+  documentación, Reindeer genera reglas para Buck2, otra herramienta de construcción, a
+  partir de las dependencias de un monorepo, y este proyecto no lo es.
 - [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
   según su documentación, usa Cargo para generar reglas de Bazel, otra herramienta de
   construcción, así que no sustituye a Cargo.
