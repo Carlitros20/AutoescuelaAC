@@ -30,12 +30,8 @@ Por orden de prioridad:
     dependencias se declaran en un `Cargo.toml`. `reindeer vendor` las resuelve y
     descarga sin Cargo, pero `reindeer buckify`, que genera las reglas de Buck2, falla
     si Cargo no está, porque ejecuta `cargo metadata`
-    ([captura](../img/reindeer-sin-cargo-rust-slim.png)). En `rust:1.99-slim`, instalar
-    `curl` y `zstd` y descargar los binarios ya compilados, sin compilar nada, tarda
-    11,6 s y ocupa 130 MB `buck2` y 34 MB `reindeer` (v2026.10.05.00). Sin dependencias
-    que descargar, como el proyecto ahora, `reindeer vendor` tarda 0,080 s y
-    `reindeer buckify` 0,093 s ([captura](../img/buck2-reindeer-rust-slim.png)). No se
-    ha medido `buck2 build`, porque aquí se comparan las dependencias, no la compilación.
+    ([captura](../img/reindeer-sin-cargo-rust-slim.png)). Además, está pensado para
+    gestionar dependencias en un monorepo, y este proyecto no lo es.
   - [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
     según su documentación, usa Cargo para generar reglas de Bazel, otra herramienta de
     construcción, así que no sustituye a Cargo.
