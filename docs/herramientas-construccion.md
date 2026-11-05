@@ -119,16 +119,17 @@ dependencias.
 
 ### Decisión: make
 
-make es la única de las cuatro que es un estándar, y su formato no ha cambiado en
+make es la única de las cinco que es un estándar, y su formato no ha cambiado en
 décadas. De las que hay que instalar, es la que menos cuesta en `rust:1.99-slim`:
-3,3 s y 1,8 MB, sin compilar nada, frente a los 61,5 s de just (96 crates) y los
-74,2 s de cargo-make (182 crates). cargo-xtask no instala nada, pero cada tarea pasa
-a ser código en Rust que hay que mantener, y obliga a convertir el proyecto en un
+3,3 s y 1,8 MB, sin compilar nada, frente a los 61,5 s de just (96 crates), los
+74,2 s de cargo-make (182 crates) y los 10 min 45 s de mise (995 crates, 275 MB y
+cuatro paquetes del sistema). cargo-xtask no instala nada, pero cada tarea pasa a ser
+código en Rust que hay que mantener, y obliga a convertir el proyecto en un
 *workspace*: es la deuda técnica que se quiere evitar. Al ejecutar `check` en un
 contenedor recién creado, make y just no añaden tiempo apreciable a `cargo check`,
-mientras que cargo-make añade unos 0,14 s y cargo-xtask unos 0,12 s, que se pagarían
-en cada ejecución de la CI. El proyecto solo necesita tres
-tareas de una orden cada una, así que las funciones de más de just y cargo-make no
+mientras que cargo-make añade unos 0,14 s, cargo-xtask unos 0,12 s y mise unos 0,03 s,
+que se pagarían en cada ejecución de la CI. El proyecto solo necesita tres tareas de
+una orden cada una, así que las funciones de más de just, cargo-make y mise no
 compensan.
 
 Inconvenientes asumidos:
