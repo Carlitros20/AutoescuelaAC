@@ -5,16 +5,6 @@ que los fuentes compilan y ejecutar los tests. El entorno de desarrollo es Linux
 Windows, WSL con Ubuntu) y la versión de Rust es la 1.99.0, fijada en
 `rust-toolchain.toml`.
 
-## Criterios
-
-Por orden de prioridad:
-
-1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
-2. **Deuda técnica**: que esté mantenida y que su formato no obligue a rehacer el
-   fichero más adelante.
-3. **Coste de instalación y de ejecución**, medido en el entorno del proyecto.
-4. **No añadir herramientas que no hagan falta** para lo que se necesita ahora.
-
 ## Gestor de dependencias
 
 ### Criterios
@@ -63,46 +53,68 @@ que fija `rust-toolchain.toml`, no a Cargo.
 
 ## Gestor de tareas
 
+### Criterios
+
+Por orden de prioridad:
+
+1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
+2. **Deuda técnica**: que esté mantenida y que su formato no obligue a rehacer el
+   fichero más adelante.
+3. **Coste de instalación y de ejecución**, medido en el entorno del proyecto.
+
 ### Herramientas consideradas
 
-- **make**: es un estándar, forma parte de POSIX (IEEE Std 1003.1). No viene en
-  `rust:1.99-slim`: `apt-get update` e instalar el paquete `make`, sin compilar nada,
-  tarda 3,3 s y ocupa 1,8 MB ([captura](../img/make-rust-slim.png)). Las tareas van en
-  un `Makefile`, un formato estable. En `rust:1.99-slim`, con el proyecto recién
-  limpiado (`cargo clean`), `make check` tarda 0,062 s, y `cargo check` a secas 0,065 s:
-  make no añade un tiempo apreciable ([captura](../img/make-check-rust-slim.png)).
-- **just**: no es un estándar. `cargo install just --locked` en `rust:1.99-slim`
-  compila 96 crates en 61,5 s y deja un binario de 6,2 MB (v1.59.0)
-  ([captura](../img/just-rust-slim.png)). Las tareas van en un `justfile`, un formato
-  propio de la herramienta. En `rust:1.99-slim`, con el proyecto recién limpiado
-  (`cargo clean`), `just check` tarda 0,082 s, y `cargo check` a secas 0,079 s: just
-  no añade un tiempo apreciable ([captura](../img/just-check-rust-slim.png)).
-- **cargo-make**: no es un estándar. `cargo install cargo-make --locked` en
-  `rust:1.99-slim` compila 182 crates en 74,2 s y deja un binario de 9,7 MB más un
-  segundo ejecutable, `makers` (v0.37.24) ([captura](../img/cargo-make-rust-slim.png)).
-  Las tareas van en un `Makefile.toml`, un formato propio de la herramienta. En
-  `rust:1.99-slim`, con el proyecto recién limpiado (`cargo clean`), `cargo make check`
-  tarda 0,210 s, y `cargo check` a secas 0,069 s: cargo-make añade unos 0,14 s en cada
-  ejecución ([captura](../img/cargo-make-check-rust-slim.png)).
-- **cargo-xtask**: no es un estándar, sino una convención: un crate del propio
-  proyecto al que se llama con un alias de Cargo. No hay nada que instalar, pero el
-  crate se compila la primera vez; en `rust:1.99-slim` tarda 0,15 s y deja un binario
-  de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)). Las tareas son un programa
-  en Rust (19 líneas para las tres tareas), con su `Cargo.toml` y el alias, y obliga a
-  convertir el proyecto en un *workspace*. En `rust:1.99-slim`, con un prototipo
-  equivalente, `cargo check` a secas tarda 0,076 s. Tras un `cargo clean`, que también
-  borra el binario de `xtask`, `cargo xtask check` tarda 0,193 s, porque vuelve a
-  compilarlo: unos 0,12 s más, que es lo que costaría en cada contenedor nuevo. Con
-  `xtask` ya compilado tarda 0,050 s, sin tiempo añadido apreciable
-  ([captura](../img/cargo-xtask-check-rust-slim.png)).
-- **mise**: no es un estándar. En `rust:1.99-slim`, `cargo install mise --locked` falla
-  porque le falta un compilador de C++ ([captura](../img/mise-sin-paquetes-rust-slim.png)).
-  Instalando antes `g++`, `cmake`, `pkg-config` y `libssl-dev`, todo el proceso tarda
-  10 min 45 s, compila 995 crates y deja un binario de 275 MB (v2026.11.2). Las tareas
-  van en un `mise.toml`, un formato propio de la herramienta. Con el proyecto recién
-  limpiado (`cargo clean`), `mise run check` tarda 0,095 s, y `cargo check` a secas
-  0,067 s: mise añade unos 0,03 s en cada ejecución
-  ([captura](../img/mise-rust-slim.png)).
+Las medidas se hacen en `rust:1.99-slim`. La ejecución se mide con el proyecto recién
+limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
+
+- **make**:
+  - **Estándar**: sí, forma parte de POSIX (IEEE Std 1003.1).
+  - **Deuda técnica**: las tareas van en un `Makefile`, un formato estable.
+  - **Coste de instalación**: no viene en la imagen. `apt-get update` e instalar el
+    paquete `make`, sin compilar nada, tarda 3,3 s y ocupa 1,8 MB
+    ([captura](../img/make-rust-slim.png)).
+  - **Coste de ejecución**: `make check` tarda 0,062 s, y `cargo check` 0,065 s: no
+    añade un tiempo apreciable ([captura](../img/make-check-rust-slim.png)).
+- **just**:
+  - **Estándar**: no.
+  - **Deuda técnica**: las tareas van en un `justfile`, un formato propio de la
+    herramienta.
+  - **Coste de instalación**: `cargo install just --locked` compila 96 crates en 61,5 s
+    y deja un binario de 6,2 MB (v1.59.0) ([captura](../img/just-rust-slim.png)).
+  - **Coste de ejecución**: `just check` tarda 0,082 s, y `cargo check` 0,079 s: no
+    añade un tiempo apreciable ([captura](../img/just-check-rust-slim.png)).
+- **cargo-make**:
+  - **Estándar**: no.
+  - **Deuda técnica**: las tareas van en un `Makefile.toml`, un formato propio de la
+    herramienta.
+  - **Coste de instalación**: `cargo install cargo-make --locked` compila 182 crates en
+    74,2 s y deja un binario de 9,7 MB más un segundo ejecutable, `makers` (v0.37.24)
+    ([captura](../img/cargo-make-rust-slim.png)).
+  - **Coste de ejecución**: `cargo make check` tarda 0,210 s, y `cargo check` 0,069 s:
+    añade unos 0,14 s en cada ejecución ([captura](../img/cargo-make-check-rust-slim.png)).
+- **cargo-xtask**:
+  - **Estándar**: no, es una convención: un crate del propio proyecto al que se llama
+    con un alias de Cargo.
+  - **Deuda técnica**: las tareas son un programa en Rust (19 líneas para las tres
+    tareas), con su `Cargo.toml` y el alias, y obliga a convertir el proyecto en un
+    *workspace*.
+  - **Coste de instalación**: no hay nada que instalar, pero el crate se compila la
+    primera vez: 0,15 s y un binario de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)).
+  - **Coste de ejecución**: con un prototipo equivalente, `cargo check` tarda 0,076 s.
+    Tras un `cargo clean`, que también borra el binario de `xtask`, `cargo xtask check`
+    tarda 0,193 s, porque vuelve a compilarlo: unos 0,12 s más, que es lo que costaría
+    en cada contenedor nuevo. Con `xtask` ya compilado tarda 0,050 s, sin tiempo añadido
+    apreciable ([captura](../img/cargo-xtask-check-rust-slim.png)).
+- **mise**:
+  - **Estándar**: no.
+  - **Deuda técnica**: las tareas van en un `mise.toml`, un formato propio de la
+    herramienta.
+  - **Coste de instalación**: `cargo install mise --locked` falla porque le falta un
+    compilador de C++ ([captura](../img/mise-sin-paquetes-rust-slim.png)). Instalando
+    antes `g++`, `cmake`, `pkg-config` y `libssl-dev`, todo el proceso tarda 10 min 45 s,
+    compila 995 crates y deja un binario de 275 MB (v2026.11.2).
+  - **Coste de ejecución**: `mise run check` tarda 0,095 s, y `cargo check` 0,067 s:
+    añade unos 0,03 s en cada ejecución ([captura](../img/mise-rust-slim.png)).
 
 ### Decisión: make
 
