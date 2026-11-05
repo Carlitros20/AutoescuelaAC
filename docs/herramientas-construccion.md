@@ -15,7 +15,7 @@ Por orden de prioridad:
 3. **Coste de instalación y de ejecución**, medido en el entorno del proyecto.
 4. **No añadir herramientas que no hagan falta** para lo que se necesita ahora.
 
-## Gestor de dependencias: Cargo
+## Gestor de dependencias
 
 - **Estándar**: es el gestor de paquetes oficial de Rust. Las dependencias se declaran
   en `Cargo.toml` y sus versiones exactas quedan fijadas en `Cargo.lock`.
@@ -24,8 +24,8 @@ Por orden de prioridad:
   la 1.99.0, así que el primer `cargo fetch` la descarga: 12,1 s y 593 MB. Con ella ya
   instalada, `cargo fetch` tarda 0,03 s ([captura](../img/cargo-rust-slim.png)). El
   coste viene de la versión fijada, no de Cargo.
-- **Alternativas**: las que aparecen al buscar alternativas a Cargo para Rust no lo
-  sustituyen como gestor de dependencias:
+- **Otras opciones**: al buscar gestores de dependencias para Rust también aparecen
+  estas, que no se consideran porque no son gestores de dependencias:
   - [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): según su
     documentación, Reindeer genera reglas para Buck2, otra herramienta de construcción,
     y está pensado para gestionar dependencias en un monorepo, y este proyecto no lo es.
