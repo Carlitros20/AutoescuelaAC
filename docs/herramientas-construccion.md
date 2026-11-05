@@ -45,8 +45,6 @@ Por orden de prioridad:
     El primer `bazel fetch` de rules_rust 0.75.0, sin dependencias que descargar, tarda
     57,3 s y deja 1,4 GB en la caché de Bazel; el segundo tarda 0,188 s
     ([captura](../img/bazel-rules-rust-rust-slim.png)).
-- **Instalar dependencias**: `cargo fetch` descarga las dependencias de `Cargo.lock`
-  sin compilarlas.
 
 ### Decisión: Cargo
 
