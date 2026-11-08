@@ -66,8 +66,8 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
 - **make**:
   - **Estándar**: sí, forma parte de POSIX (IEEE Std 1003.1).
   - **Deuda técnica**: las tareas van en un `Makefile`, un formato estable.
-  - **Coste de instalación**: no viene en la imagen. `apt-get update` e instalar el
-    paquete `make`, sin compilar nada, tarda 3,3 s y ocupa 1,8 MB
+  - **Coste de instalación**: no viene en `rust:1.99-slim`. `apt-get update` e instalar
+    el paquete `make`, sin compilar nada, tarda 3,3 s y ocupa 1,8 MB
     ([captura](../img/make-rust-slim.png)).
   - **Coste de ejecución**: `make check` tarda 0,062 s, y `cargo check` 0,065 s: no
     añade un tiempo apreciable ([captura](../img/make-check-rust-slim.png)).
