@@ -54,9 +54,8 @@ formatos son los estándar del lenguaje, y el único coste medido, 12,1 s la pri
 Por orden de prioridad:
 
 1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
-2. **Deuda técnica**: que su formato no obligue a rehacer el fichero más adelante.
-3. **Coste de instalación**, medido en el entorno del proyecto.
-4. **Coste de ejecución**, medido en el entorno del proyecto.
+2. **Coste de instalación**, medido en el entorno del proyecto.
+3. **Coste de ejecución**, medido en el entorno del proyecto.
 
 ### Herramientas consideradas
 
@@ -65,7 +64,6 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
 
 - **make**:
   - **Estándar**: sí, forma parte de POSIX (IEEE Std 1003.1).
-  - **Deuda técnica**: las tareas van en un `Makefile`, un formato estable.
   - **Coste de instalación**: no viene en `rust:1.99-slim`. `apt-get update` e instalar
     el paquete `make`, sin compilar nada, tarda 3,3 s y ocupa 1,8 MB
     ([captura](../img/make-rust-slim.png)).
@@ -73,16 +71,12 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
     añade un tiempo apreciable ([captura](../img/make-check-rust-slim.png)).
 - **just**:
   - **Estándar**: no.
-  - **Deuda técnica**: las tareas van en un `justfile`, un formato propio de la
-    herramienta.
   - **Coste de instalación**: `cargo install just --locked` compila 96 crates en 61,5 s
     y deja un binario de 6,2 MB (v1.59.0) ([captura](../img/just-rust-slim.png)).
   - **Coste de ejecución**: `just check` tarda 0,082 s, y `cargo check` 0,079 s: no
     añade un tiempo apreciable ([captura](../img/just-check-rust-slim.png)).
 - **cargo-make**:
   - **Estándar**: no.
-  - **Deuda técnica**: las tareas van en un `Makefile.toml`, un formato propio de la
-    herramienta.
   - **Coste de instalación**: `cargo install cargo-make --locked` compila 182 crates en
     74,2 s y deja un binario de 9,7 MB más un segundo ejecutable, `makers` (v0.37.24)
     ([captura](../img/cargo-make-rust-slim.png)).
@@ -100,8 +94,6 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
     apreciable ([captura](../img/cargo-xtask-check-rust-slim.png)).
 - **mise**:
   - **Estándar**: no.
-  - **Deuda técnica**: las tareas van en un `mise.toml`, un formato propio de la
-    herramienta.
   - **Coste de instalación**: `cargo install mise --locked` falla porque le falta un
     compilador de C++ ([captura](../img/mise-sin-paquetes-rust-slim.png)). Instalando
     antes `g++`, `cmake`, `pkg-config` y `libssl-dev`, todo el proceso tarda 10 min 45 s,
