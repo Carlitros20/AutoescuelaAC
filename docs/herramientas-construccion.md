@@ -89,8 +89,7 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
   - **Coste de ejecución**: `cargo make check` tarda 0,210 s, y `cargo check` 0,069 s:
     añade unos 0,14 s en cada ejecución ([captura](../img/cargo-make-check-rust-slim.png)).
 - **cargo-xtask**:
-  - **Estándar**: no, es una convención: un crate del propio proyecto al que se llama
-    con un alias de Cargo.
+  - **Estándar**: no.
   - **Coste de instalación**: no hay nada que instalar, pero el crate se compila la
     primera vez: 0,15 s y un binario de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)).
   - **Coste de ejecución**: en el proyecto con el crate `xtask` añadido, `cargo check`
