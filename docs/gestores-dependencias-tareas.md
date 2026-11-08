@@ -66,12 +66,10 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
 
 ### Decisión: make
 
-Por orden de criterios, make es la única de las cinco que es un estándar. En deuda
-técnica, su formato es estable, mientras que just, cargo-make y mise usan uno propio, y
-cargo-xtask convierte las tareas en código Rust que hay que mantener y obliga a un
-*workspace*. En coste de instalación es la que menos cuesta de las que hay que instalar:
-3,3 s y 1,8 MB, sin compilar nada, frente a los 61,5 s de just (96 crates), los 74,2 s de
-cargo-make (182 crates) y los 10 min 45 s de mise (995 crates, 275 MB y cuatro paquetes
-del sistema). Al ejecutar `check` en un contenedor recién creado, make y just no añaden
-tiempo apreciable a `cargo check`, mientras que cargo-make añade unos 0,14 s, cargo-xtask
-unos 0,12 s y mise unos 0,03 s, que se pagarían en cada ejecución de la CI.
+make es la única de las cinco que es un estándar. De las que hay que instalar, es la que
+menos cuesta: 3,3 s y 1,8 MB, sin compilar nada, frente a los 61,5 s de just (96 crates),
+los 74,2 s de cargo-make (182 crates) y los 10 min 45 s de mise (995 crates, 275 MB y
+cuatro paquetes del sistema). Al ejecutar `check` en un contenedor recién creado, make y
+just no añaden tiempo apreciable a `cargo check`, mientras que cargo-make añade unos
+0,14 s, cargo-xtask unos 0,12 s y mise unos 0,03 s, que se pagarían en cada ejecución de
+la CI.
