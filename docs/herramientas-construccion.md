@@ -91,9 +91,6 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
 - **cargo-xtask**:
   - **Estándar**: no, es una convención: un crate del propio proyecto al que se llama
     con un alias de Cargo.
-  - **Deuda técnica**: las tareas son un programa en Rust (19 líneas para las tres
-    tareas), con su `Cargo.toml` y el alias, y obliga a convertir el proyecto en un
-    *workspace*.
   - **Coste de instalación**: no hay nada que instalar, pero el crate se compila la
     primera vez: 0,15 s y un binario de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)).
   - **Coste de ejecución**: en el proyecto con el crate `xtask` añadido, `cargo check`
