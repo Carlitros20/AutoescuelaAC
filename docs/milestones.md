@@ -28,11 +28,6 @@ Sobre el modelo del Milestone 0 se plantean issues con los problemas de lógica 
 negocio de HU001, y se resuelven en las entidades del modelo escribiendo, para cada
 uno, tests que comprueban la solución, incluidos los casos de error.
 
-Antes de eso, el proyecto cuenta con herramientas que automatizan sus tareas: instalar
-las dependencias, comprobar que los fuentes compilan y ejecutar los tests, cada una con
-una sola orden.
-
 ### Cómo se comprueba su validez
-Las dependencias se instalan, la sintaxis se comprueba y los tests se ejecutan con
-las órdenes del fichero de tareas, y los tests se superan. Cada test se relaciona con
-un issue y este con HU001.
+Los tests se ejecutan automáticamente y se superan, y cada test se relaciona con un
+issue y este con HU001.
