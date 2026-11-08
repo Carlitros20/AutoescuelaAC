@@ -7,35 +7,7 @@ Windows, WSL con Ubuntu) y la versión de Rust es la 1.99.0, fijada en
 
 ## Gestor de dependencias
 
-### Criterios
-
-Por orden de prioridad:
-
-1. **Estándar**: que la herramienta sea la oficial del lenguaje o esté normalizada.
-2. **Deuda técnica**: que su formato no obligue a rehacer el fichero más adelante.
-3. **Coste de instalación**, medido en el entorno del proyecto.
-4. **Coste de ejecución**, medido en el entorno del proyecto.
-
-### Herramientas consideradas
-
-- **Cargo**:
-  - **Estándar**: es el gestor de paquetes oficial de Rust.
-  - **Deuda técnica**: viene con el lenguaje, y las dependencias se declaran en
-    `Cargo.toml` y sus versiones exactas quedan fijadas en `Cargo.lock`, sus formatos
-    estándar.
-  - **Coste de instalación**: viene con la toolchain de Rust, sin nada más que
-    instalar. En la imagen `rust:1.99-slim` ya está Cargo 1.99.1, pero
-    `rust-toolchain.toml` fija la 1.99.0, así que el primer `cargo fetch` la descarga:
-    12,1 s y 593 MB ([captura](../img/cargo-rust-slim.png)). El coste viene de la versión
-    fijada, no de Cargo.
-  - **Coste de ejecución**: con esa versión ya instalada, `cargo fetch` tarda 0,03 s
-    ([captura](../img/cargo-rust-slim.png)).
-
-### Decisión: Cargo
-
-Cargo es el gestor oficial de Rust y el único gestor de dependencias considerado. Sus
-formatos son los estándar del lenguaje, y el único coste medido, 12,1 s la primera vez en
-`rust:1.99-slim`, se debe a la versión que fija `rust-toolchain.toml`, no a Cargo.
+Cargo, el gestor estándar de Rust. No hay alternativas.
 
 ## Gestor de tareas
 
