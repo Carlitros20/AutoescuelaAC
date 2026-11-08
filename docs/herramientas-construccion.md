@@ -131,10 +131,3 @@ unos 0,12 s y mise unos 0,03 s, que se pagarían en cada ejecución de la CI.
 - `make check` ejecuta `cargo check`, que comprueba que los fuentes compilan, sin
   generar el binario ni ejecutar los tests.
 - `make test` ejecuta `cargo test`, que ejecuta los tests.
-
-## Fuentes
-
-- [The Cargo Book](https://doc.rust-lang.org/cargo/)
-- [The Rust Programming Language, cap. 1.1: Installation](https://rust-lang.github.io/book/ch01-01-installation.html)
-- [make, especificación POSIX (IEEE Std 1003.1)](https://man.archlinux.org/man/make.1p.en)
-- [cargo-xtask](https://github.com/matklad/cargo-xtask)
