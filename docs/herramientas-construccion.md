@@ -96,7 +96,8 @@ limpiado (`cargo clean`), comparando `check` con `cargo check` a secas.
     *workspace*.
   - **Coste de instalación**: no hay nada que instalar, pero el crate se compila la
     primera vez: 0,15 s y un binario de 4,7 MB ([captura](../img/cargo-xtask-rust-slim.png)).
-  - **Coste de ejecución**: con un prototipo equivalente, `cargo check` tarda 0,076 s.
+  - **Coste de ejecución**: en el proyecto con el crate `xtask` añadido, `cargo check`
+    tarda 0,076 s.
     Tras un `cargo clean`, que también borra el binario de `xtask`, `cargo xtask check`
     tarda 0,193 s, porque vuelve a compilarlo: unos 0,12 s más, que es lo que costaría
     en cada contenedor nuevo. Con `xtask` ya compilado tarda 0,050 s, sin tiempo añadido
