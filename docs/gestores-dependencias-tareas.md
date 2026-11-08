@@ -75,10 +75,3 @@ cargo-make (182 crates) y los 10 min 45 s de mise (995 crates, 275 MB y cuatro p
 del sistema). Al ejecutar `check` en un contenedor recién creado, make y just no añaden
 tiempo apreciable a `cargo check`, mientras que cargo-make añade unos 0,14 s, cargo-xtask
 unos 0,12 s y mise unos 0,03 s, que se pagarían en cada ejecución de la CI.
-
-## Tareas
-
-- `make install` ejecuta `cargo fetch`, que descarga las dependencias.
-- `make check` ejecuta `cargo check`, que comprueba que los fuentes compilan, sin
-  generar el binario ni ejecutar los tests.
-- `make test` ejecuta `cargo test`, que ejecuta los tests.
