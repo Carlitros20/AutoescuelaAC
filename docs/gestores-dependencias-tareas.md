@@ -1,4 +1,4 @@
-# Herramientas de construcción
+# Gestores de dependencias y de tareas
 
 El proyecto necesita automatizar tres tareas: instalar las dependencias, comprobar
 que los fuentes compilan y ejecutar los tests. El entorno de desarrollo es Linux (en

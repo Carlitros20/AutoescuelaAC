@@ -84,7 +84,7 @@ make test
 - `make check` comprueba que los fuentes compilan, sin generar ningún ejecutable.
 - `make test` ejecuta los tests.
 
-Por qué se usan Cargo y make: [herramientas de construcción](docs/herramientas-construccion.md).
+Por qué se usan Cargo y make: [gestores de dependencias y de tareas](docs/gestores-dependencias-tareas.md).
 
 ## Planificación del proyecto
 El proyecto se ha planificado en historias de usuario, milestones y user
