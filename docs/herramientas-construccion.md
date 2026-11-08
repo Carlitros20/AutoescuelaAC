@@ -31,16 +31,6 @@ Por orden de prioridad:
   - **Coste de ejecución**: con esa versión ya instalada, `cargo fetch` tarda 0,03 s
     ([captura](../img/cargo-rust-slim.png)).
 
-Al buscar gestores de dependencias para Rust también aparecen estas opciones, que no se
-consideran porque no son gestores de dependencias:
-
-- [Buck2 con Reindeer](https://github.com/facebookincubator/reindeer): según su
-  documentación, Reindeer genera reglas para Buck2, otra herramienta de construcción, a
-  partir de las dependencias de un monorepo, y este proyecto no lo es.
-- [Bazel con rules_rust (crate_universe)](https://github.com/bazelbuild/rules_rust/tree/main/crate_universe):
-  según su documentación, usa Cargo para generar reglas de Bazel, otra herramienta de
-  construcción, así que no sustituye a Cargo.
-
 ### Decisión: Cargo
 
 Cargo es el gestor oficial de Rust y el único gestor de dependencias considerado. Sus
