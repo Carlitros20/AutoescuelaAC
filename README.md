@@ -57,15 +57,11 @@ en un momento distinto y sin estar juntos. Sin un punto de acceso común,
 disponible desde ambos dispositivos en tiempo real, esos dos hechos
 no pueden encontrarse a tiempo dentro del margen disponible.
 
-## Entidad que se comprueba
+## Alumno
 `Alumno` ([`src/alumno.rs`](src/alumno.rs)) representa a cada alumno en prácticas: su
-nombre y las coordenadas del punto donde se le recoge. Los alumnos se guardan en
-`AlumnosRegistrados`, en un mapa por DNI, y las clases de la agenda solo guardan el DNI
-del alumno, así que los datos de cada alumno están en un único sitio.
-
-En el servicio web, cuando se cancele una clase, las coordenadas de recogida de cada
-alumno, junto con la ubicación del coche, servirán para calcular a qué alumnos puede
-llegar el profesor antes de la hora de inicio de esa clase y proponerlos como sustitutos.
+nombre y las coordenadas del punto donde se le recoge. En el servicio web, cuando se
+cancele una clase, esas coordenadas, junto con la ubicación del coche, servirán para
+calcular a qué alumnos puede llegar el profesor antes de la hora de inicio de esa clase.
 
 ## Instalación y comprobación
 Hace falta:
