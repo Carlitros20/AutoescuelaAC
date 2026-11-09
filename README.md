@@ -57,6 +57,29 @@ en un momento distinto y sin estar juntos. Sin un punto de acceso común,
 disponible desde ambos dispositivos en tiempo real, esos dos hechos
 no pueden encontrarse a tiempo dentro del margen disponible.
 
+## Instalación y comprobación
+Hace falta:
+- [rustup](https://rustup.rs). La versión de Rust del proyecto (1.99.0) está fijada en
+  `rust-toolchain.toml`, y rustup la instala sola la primera vez que se usa.
+- make, que en Ubuntu viene con el paquete `build-essential`, el mismo que Rust necesita
+  para enlazar.
+
+```sh
+git clone https://github.com/Carlitros20/AutoescuelaAC.git
+cd AutoescuelaAC
+make install
+make check
+make test
+```
+
+- `git clone` descarga el repositorio y `cd` entra en su directorio, desde el que se
+  ejecutan las demás órdenes.
+- `make install` descarga las dependencias del proyecto.
+- `make check` comprueba que los fuentes compilan, sin generar ningún ejecutable.
+- `make test` ejecuta los tests.
+
+Por qué se usan Cargo y make: [gestores de dependencias y de tareas](docs/gestores-dependencias-tareas.md).
+
 ## Planificación del proyecto
 El proyecto se ha planificado en historias de usuario, milestones y user
 journeys, siguiendo el objetivo 1 de la asignatura:
