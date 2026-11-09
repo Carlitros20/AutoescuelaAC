@@ -30,3 +30,16 @@ Por orden de prioridad:
 - **Estándar**: no, hay que instalarlo aparte.
 - **Coste de instalación**: 1,514 s con el binario, que es lo que recomienda su documentación, y 3,085 s más para instalar `curl`, que no viene en la imagen.
 - **Coste de ejecución**: con un solo test de prueba, 0,259 s la primera vez, y 0,074 s y 0,064 s las siguientes. `cargo test` tarda con ese mismo test 0,176 s, 0,030 s y 0,030 s.
+
+### Aserciones y marcos de test
+
+`assert!` y `assert_eq!`, `#[test]` con libtest, `assert2`, `assertables`, `googletest`, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguna.
+
+- **`assert!` y `assert_eq!`**: aserciones estándar, vienen con el lenguaje.
+- **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
+- **`assertables`**: macros de aserción específicas. No es estándar.
+- **`googletest`**: matchers. No es estándar.
+- **`#[test]` con libtest**: marco estándar, viene con el lenguaje.
+- **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
+- **`test-case`**: añade tablas sobre libtest. No es estándar.
+- **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. No es estándar.
