@@ -12,3 +12,12 @@ Por orden de prioridad:
 2. **Estándar**: viene con el lenguaje.
 3. **Coste de instalación**: tiempo medido en `rust:1.99.0-slim`.
 4. **Coste de ejecución**: tiempo de ejecutar los tests, medido en `rust:1.99.0-slim`.
+
+## Herramientas consideradas
+
+### Runner
+
+**`cargo test`**
+
+- **No escribe en los fuentes**: con el proyecto montado en solo lectura falla si no se configura dónde escribir, y pasa con `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/cargo-test-solo-lectura.png)).
+- **Estándar**: viene con Cargo.
