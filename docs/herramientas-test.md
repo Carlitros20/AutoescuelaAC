@@ -23,3 +23,10 @@ Por orden de prioridad:
 - **Estándar**: viene con Cargo.
 - **Coste de instalación**: ninguno, viene en la imagen.
 - **Coste de ejecución**: 0,183 s la primera vez, porque compila, y 0,032 s y 0,035 s las siguientes ([captura](../img/cargo-test-tiempo.png)). Todavía no hay tests, así que esto solo mide compilar el proyecto y arrancar el runner.
+
+**`cargo-nextest`**
+
+- **No escribe en los fuentes**: pasa con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/cargo-nextest.png)).
+- **Estándar**: no, hay que instalarlo aparte.
+- **Coste de instalación**: 1,514 s con el binario, que es lo que recomienda su documentación, y 3,085 s más para instalar `curl`, que no viene en la imagen.
+- **Coste de ejecución**: con un solo test de prueba, 0,259 s la primera vez, y 0,074 s y 0,064 s las siguientes. `cargo test` tarda con ese mismo test 0,176 s, 0,030 s y 0,030 s.
