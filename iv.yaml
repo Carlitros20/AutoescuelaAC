@@ -3,3 +3,4 @@ entidad: src/alumno.rs
 automatizar:
   fichero: Makefile
   orden: make
+test: src/agenda.rs
