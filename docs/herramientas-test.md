@@ -43,3 +43,11 @@ Por orden de prioridad:
 - **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
 - **`test-case`**: añade tablas sobre libtest. No es estándar.
 - **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. No es estándar.
+
+## Decisión
+
+- **Aserciones**: `assert!` y `assert_eq!`.
+- **Marco de test**: `#[test]` con libtest.
+- **Runner**: `cargo test`.
+
+Todas las opciones pasan el primer criterio, así que decide el segundo: son las estándar. Además, `cargo test` no cuesta nada de instalar, frente a los 4,6 s de `cargo-nextest` con `curl`, y tarda menos con el mismo test. Hay que configurar `CARGO_TARGET_DIR` para no escribir en los fuentes.
