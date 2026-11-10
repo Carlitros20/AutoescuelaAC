@@ -2,7 +2,7 @@
 
 ## Criterios de búsqueda
 
-Se buscan aserciones, marcos de test y runners en la documentación oficial de Rust y en crates.io. Solo se tienen en cuenta los que hayan publicado una versión en el último año.
+Se buscan aserciones, marcos de test y runners en la documentación oficial de Rust y en crates.io. Solo se tienen en cuenta los que hayan publicado una versión en el último año. Como el guion pide buscar bibliotecas que digan ofrecer *specs* o estilo BDD, también se buscan en crates.io los términos «bdd», «spec» y «rspec».
 
 ## Criterios de aceptación
 
@@ -43,6 +43,11 @@ Por orden de prioridad:
 - **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
 - **`test-case`**: añade tablas sobre libtest. No es estándar.
 - **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. No es estándar.
+
+`rstest-bdd` y `spectacular`, las que salen al buscar specs y BDD, también pasan sus tests con el proyecto montado en solo lectura ([captura](../img/specs-solo-lectura.png)).
+
+- **`rstest-bdd`**: escenarios BDD en ficheros `.feature`, sobre `rstest`. No es estándar.
+- **`spectacular`**: tests al estilo RSpec, con `describe` e `it`. No es estándar.
 
 ## Decisión
 
