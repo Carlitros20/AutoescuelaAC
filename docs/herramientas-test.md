@@ -38,7 +38,7 @@ Por orden de prioridad:
 - **`assert!`, `assert_eq!` y `assert_ne!`**: aserciones estándar, vienen con el lenguaje.
 - **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
 - **`assertables`**: macros de aserción específicas. No es estándar.
-- **`googletest`**: matchers. No es estándar.
+- **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. No es estándar.
 - **`#[test]` con libtest**: marco estándar, viene con el lenguaje.
 - **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
 - **`test-case`**: añade tablas sobre libtest. No es estándar.
