@@ -51,7 +51,7 @@ Por orden de prioridad:
 
 ## Decisión
 
-- **Aserciones**: `assert!` y `assert_eq!`.
+- **Aserciones**: `assert!`, `assert_eq!` y `assert_ne!`.
 - **Marco de test**: `#[test]` con libtest.
 - **Runner**: `cargo test`.
 
