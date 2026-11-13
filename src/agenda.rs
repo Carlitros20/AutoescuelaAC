@@ -58,12 +58,18 @@ mod tests {
         agenda
     }
 
+    fn margen_con_aviso_a_las(aviso: SystemTime) -> Result<Duration, ErrorMargen> {
+        let mut agenda = agenda_con_clase_a_las_17();
+        agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
+        agenda.margen(hora(17, 0))
+    }
+
     #[test]
     fn aviso_a_las_1610_para_clase_a_las_17_deja_50_minutos() {
-        let mut agenda = agenda_con_clase_a_las_17();
-        agenda.registrar_aviso(hora(17, 0), hora(16, 10)).unwrap();
-
-        assert_eq!(agenda.margen(hora(17, 0)), Ok(Duration::from_secs(50 * 60)));
+        assert_eq!(
+            margen_con_aviso_a_las(hora(16, 10)),
+            Ok(Duration::from_secs(50 * 60))
+        );
     }
 
     #[test]
@@ -75,18 +81,18 @@ mod tests {
 
     #[test]
     fn aviso_a_la_hora_de_inicio_no_deja_margen() {
-        let mut agenda = agenda_con_clase_a_las_17();
-        agenda.registrar_aviso(hora(17, 0), hora(17, 0)).unwrap();
-
-        assert_eq!(agenda.margen(hora(17, 0)), Err(ErrorMargen::AvisoTardio));
+        assert_eq!(
+            margen_con_aviso_a_las(hora(17, 0)),
+            Err(ErrorMargen::AvisoTardio)
+        );
     }
 
     #[test]
     fn aviso_posterior_al_inicio_no_deja_margen() {
-        let mut agenda = agenda_con_clase_a_las_17();
-        agenda.registrar_aviso(hora(17, 0), hora(17, 5)).unwrap();
-
-        assert_eq!(agenda.margen(hora(17, 0)), Err(ErrorMargen::AvisoTardio));
+        assert_eq!(
+            margen_con_aviso_a_las(hora(17, 5)),
+            Err(ErrorMargen::AvisoTardio)
+        );
     }
 
     #[test]
