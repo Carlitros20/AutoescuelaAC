@@ -33,6 +33,7 @@ Por orden de prioridad:
 `assert!` y `assert_eq!`, `assert2`, `assertables` y `googletest` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). Este criterio no descarta ninguna.
 
 - **`assert!`, `assert_eq!` y `assert_ne!`**: aserciones estándar, vienen con el lenguaje.
+- **`debug_assert!`, `debug_assert_eq!` y `debug_assert_ne!`**: las mismas aserciones, pero se desactivan al compilar en release, así que no sirven para tests.
 - **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
 - **`assertables`**: macros de aserción específicas. No es estándar.
 - **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. No es estándar.
