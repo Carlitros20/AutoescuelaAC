@@ -30,13 +30,13 @@ Por orden de prioridad:
 
 ### Aserciones
 
-`assert!` y `assert_eq!`, `assert2`, `assertables` y `googletest` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). Este criterio no descarta ninguna.
+`assert!` y `assert_eq!`, `assert2`, `assertables` y `googletest` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). Este criterio no descarta ninguna. Las dependencias y el tiempo de `cargo test` se han medido con el mismo test en cada una; la primera vez incluye compilar ([captura](../img/bibliotecas-coste.png)).
 
-- **`assert!`, `assert_eq!` y `assert_ne!`**: aserciones estándar, vienen con el lenguaje.
+- **`assert!`, `assert_eq!` y `assert_ne!`**: vienen con el lenguaje, no añaden ningún crate. 0,124 s la primera vez y 0,026 s las siguientes.
 - **`debug_assert!`, `debug_assert_eq!` y `debug_assert_ne!`**: las mismas aserciones, pero se desactivan al compilar en release, así que no sirven para tests.
-- **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
-- **`assertables`**: macros de aserción específicas. No es estándar.
-- **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. No es estándar.
+- **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. Añade 15 crates. 2,688 s la primera vez, y 0,033 s y 0,034 s las siguientes.
+- **`assertables`**: macros de aserción específicas. Añade 8 crates. 0,265 s la primera vez, y 0,029 s las siguientes.
+- **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. Añade 14 crates. 3,341 s la primera vez, y 0,031 s y 0,034 s las siguientes.
 
 ### Marcos de test
 
