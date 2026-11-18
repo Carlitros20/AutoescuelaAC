@@ -30,7 +30,7 @@ Por orden de prioridad:
 
 ### Aserciones
 
-`assert!` y `assert_eq!`, `#[test]` con libtest, `assert2`, `assertables`, `googletest`, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguna.
+`assert!` y `assert_eq!`, `assert2`, `assertables` y `googletest` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). Este criterio no descarta ninguna.
 
 - **`assert!`, `assert_eq!` y `assert_ne!`**: aserciones estándar, vienen con el lenguaje.
 - **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
@@ -38,6 +38,8 @@ Por orden de prioridad:
 - **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. No es estándar.
 
 ### Marcos de test
+
+`#[test]` con libtest, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguno.
 
 - **`#[test]` con libtest**: marco estándar, viene con el lenguaje.
 - **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
