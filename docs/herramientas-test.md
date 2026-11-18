@@ -39,12 +39,12 @@ Por orden de prioridad:
 
 ### Marcos de test
 
-`#[test]` con libtest, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguno. Las dependencias y el tiempo de `cargo test` se han medido igual que en las aserciones ([captura](../img/bibliotecas-coste.png)).
+`#[test]` con libtest, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguno. El tiempo de `cargo test` se ha medido igual que en las aserciones ([captura](../img/bibliotecas-coste.png)).
 
-- **`#[test]` con libtest**: viene con el lenguaje, no añade ningún crate. 0,124 s la primera vez y 0,026 s las siguientes.
-- **`rstest`**: marco de test que funciona sobre libtest y añade fixtures y tablas de casos. Añade 29 crates. 3,923 s la primera vez, y 0,042 s y 0,039 s las siguientes.
-- **`test-case`**: añade tablas sobre libtest. Añade 8 crates. 2,397 s la primera vez, y 0,029 s las siguientes.
-- **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. Añade 120 crates. 11,667 s la primera vez, y 0,085 s y 0,389 s las siguientes.
+- **`#[test]` con libtest**: viene con el lenguaje. 0,124 s la primera vez y 0,026 s las siguientes.
+- **`rstest`**: marco de test que funciona sobre libtest y añade fixtures y tablas de casos. 3,923 s la primera vez, y 0,042 s y 0,039 s las siguientes.
+- **`test-case`**: añade tablas sobre libtest. 2,397 s la primera vez, y 0,029 s las siguientes.
+- **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. 11,667 s la primera vez, y 0,085 s y 0,389 s las siguientes.
 
 `rstest-bdd` y `spectacular`, los marcos que salen al buscar specs y BDD, también pasan sus tests con el proyecto montado en solo lectura ([captura](../img/specs-solo-lectura.png)), y se han medido igual que los demás ([captura](../img/bibliotecas-coste.png)).
 
