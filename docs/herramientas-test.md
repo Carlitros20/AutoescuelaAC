@@ -52,4 +52,4 @@ Por orden de prioridad:
 - **Marco de test**: `#[test]` con libtest.
 - **Runner**: `cargo test`.
 
-Todas las opciones pasan el primer criterio, así que decide el segundo, que va antes que el coste: son las estándar. El coste no cambia la decisión: `cargo test` no cuesta nada de instalar, frente a los 4,6 s de `cargo-nextest` con `curl`, y con un solo test tarda menos. Según su documentación, `cargo-nextest` gana en proyectos grandes, con muchos binarios de test, que no es el caso. Hay que configurar `CARGO_TARGET_DIR` para no escribir en los fuentes.
+Todas las opciones pasan el primer criterio, así que decide el segundo, que va antes que el coste: son las estándar. El coste de ejecución no cambia la decisión: con un solo test, `cargo test` tarda menos. Según su documentación, `cargo-nextest` gana en proyectos grandes, con muchos binarios de test, que no es el caso. Hay que configurar `CARGO_TARGET_DIR` para no escribir en los fuentes.
