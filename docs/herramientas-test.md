@@ -56,11 +56,3 @@ Por orden de prioridad:
 - **Runner**: `cargo test`.
 
 Todas las opciones pasan el primer criterio, así que decide el segundo, que va antes que el coste: son las estándar. El coste no cambia la decisión: `cargo test` no cuesta nada de instalar, frente a los 4,6 s de `cargo-nextest` con `curl`, y con un solo test tarda menos. Según su documentación, `cargo-nextest` gana en proyectos grandes, con muchos binarios de test, que no es el caso. Hay que configurar `CARGO_TARGET_DIR` para no escribir en los fuentes.
-
-## Principios F.I.R.S.T.
-
-- **Rápidos**: no usan red, disco ni esperas.
-- **Independientes**: cada test crea su propia agenda.
-- **Repetibles**: usan horas fijas en lugar del reloj del sistema, así que siempre dan el mismo resultado.
-- **Autoevaluables**: cada uno comprueba el resultado con `assert_eq!`, sin que nadie tenga que leer la salida.
-- **Oportunos**: se han escrito junto al código de #13.
