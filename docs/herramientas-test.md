@@ -28,7 +28,7 @@ Por orden de prioridad:
 - **Estándar**: no, hay que instalarlo aparte.
 - **Coste de ejecución**: con un solo test de prueba, 0,259 s la primera vez, y 0,074 s y 0,064 s las siguientes. `cargo test` tarda con ese mismo test 0,176 s, 0,030 s y 0,030 s.
 
-### Aserciones y marcos de test
+### Aserciones
 
 `assert!` y `assert_eq!`, `#[test]` con libtest, `assert2`, `assertables`, `googletest`, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguna.
 
@@ -36,6 +36,9 @@ Por orden de prioridad:
 - **`assert2`**: aserciones con mensajes más detallados y `check!`, que no para el test en el primer fallo. No es estándar.
 - **`assertables`**: macros de aserción específicas. No es estándar.
 - **`googletest`**: matchers que se combinan, con `assert_that!`, que para el test al fallar, y `expect_that!`, que lo marca como fallido pero lo deja seguir. Trae su propio atributo, `#[gtest]`. No es estándar.
+
+### Marcos de test
+
 - **`#[test]` con libtest**: marco estándar, viene con el lenguaje.
 - **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
 - **`test-case`**: añade tablas sobre libtest. No es estándar.
