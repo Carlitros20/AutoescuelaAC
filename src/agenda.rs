@@ -68,7 +68,8 @@ mod tests {
     fn aviso_a_las_1610_para_clase_a_las_17_deja_50_minutos() {
         assert_eq!(
             margen_con_aviso_a_las(hora(16, 10)),
-            Ok(Duration::from_secs(50 * 60))
+            Ok(Duration::from_secs(50 * 60)),
+            "un aviso a las 16:10 para una clase a las 17:00 debería dejar 50 minutos de margen"
         );
     }
 
@@ -76,14 +77,19 @@ mod tests {
     fn clase_sin_aviso_no_tiene_margen() {
         let agenda = agenda_con_clase_a_las_17();
 
-        assert_eq!(agenda.margen(hora(17, 0)), Err(ErrorMargen::SinAviso));
+        assert_eq!(
+            agenda.margen(hora(17, 0)),
+            Err(ErrorMargen::SinAviso),
+            "una clase sin aviso de cancelación no debería tener margen"
+        );
     }
 
     #[test]
     fn aviso_a_la_hora_de_inicio_no_deja_margen() {
         assert_eq!(
             margen_con_aviso_a_las(hora(17, 0)),
-            Err(ErrorMargen::AvisoTardio)
+            Err(ErrorMargen::AvisoTardio),
+            "un aviso a la misma hora en que empieza la clase no debería dejar margen"
         );
     }
 
@@ -91,7 +97,8 @@ mod tests {
     fn aviso_posterior_al_inicio_no_deja_margen() {
         assert_eq!(
             margen_con_aviso_a_las(hora(17, 5)),
-            Err(ErrorMargen::AvisoTardio)
+            Err(ErrorMargen::AvisoTardio),
+            "un aviso posterior al inicio de la clase no debería dejar margen"
         );
     }
 
@@ -101,7 +108,8 @@ mod tests {
 
         assert_eq!(
             agenda.margen(hora(18, 0)),
-            Err(ErrorMargen::ClaseInexistente)
+            Err(ErrorMargen::ClaseInexistente),
+            "una hora sin clase en la agenda no debería tener margen"
         );
     }
 
@@ -111,7 +119,8 @@ mod tests {
 
         assert_eq!(
             agenda.registrar_aviso(hora(18, 0), hora(16, 10)),
-            Err(ErrorMargen::ClaseInexistente)
+            Err(ErrorMargen::ClaseInexistente),
+            "no debería poder registrarse un aviso a una hora sin clase"
         );
     }
 }
