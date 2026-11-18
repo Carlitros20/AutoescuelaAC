@@ -42,7 +42,7 @@ Por orden de prioridad:
 `#[test]` con libtest, `rstest` y `test-case` pasan los tests con el proyecto montado en solo lectura y `CARGO_TARGET_DIR` fuera de los fuentes ([captura](../img/bibliotecas-solo-lectura.png)). `cucumber` se ha compilado así, pero no se ha ejecutado, porque necesita su propio `main`. Este criterio no descarta ninguno.
 
 - **`#[test]` con libtest**: marco estándar, viene con el lenguaje.
-- **`rstest`**: añade fixtures y tablas sobre libtest. No es estándar.
+- **`rstest`**: marco de test que funciona sobre libtest y añade fixtures y tablas de casos. No es estándar.
 - **`test-case`**: añade tablas sobre libtest. No es estándar.
 - **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. No es estándar.
 
