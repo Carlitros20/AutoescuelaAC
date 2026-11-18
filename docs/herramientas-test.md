@@ -47,10 +47,10 @@ Por orden de prioridad:
 - **`test-case`**: añade tablas sobre libtest. Añade 8 crates. 2,397 s la primera vez, y 0,029 s las siguientes.
 - **`cucumber`**: BDD con ficheros de escenarios, sustituye a libtest. Añade 120 crates. 11,667 s la primera vez, y 0,085 s y 0,389 s las siguientes.
 
-`rstest-bdd` y `spectacular`, las que salen al buscar specs y BDD, también pasan sus tests con el proyecto montado en solo lectura ([captura](../img/specs-solo-lectura.png)).
+`rstest-bdd` y `spectacular`, los marcos que salen al buscar specs y BDD, también pasan sus tests con el proyecto montado en solo lectura ([captura](../img/specs-solo-lectura.png)), y se han medido igual que los demás ([captura](../img/bibliotecas-coste.png)).
 
-- **`rstest-bdd`**: escenarios BDD en ficheros `.feature`, sobre `rstest`. No es estándar.
-- **`spectacular`**: tests al estilo RSpec, con `describe` e `it`. No es estándar.
+- **`rstest-bdd`**: escenarios BDD en ficheros `.feature`, sobre `rstest`. Añade 159 crates. 12,225 s la primera vez, y 0,089 s y 0,087 s las siguientes.
+- **`spectacular`**: tests al estilo RSpec, con `describe` e `it`. Añade 6 crates. 2,104 s la primera vez, y 0,030 s y 0,028 s las siguientes.
 
 ## Decisión
 
