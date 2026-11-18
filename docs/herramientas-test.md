@@ -9,8 +9,7 @@ Se buscan aserciones, marcos de test y runners en la documentación oficial de R
 Por orden de prioridad:
 
 1. **No escribe en los fuentes**: funciona con el proyecto montado en solo lectura, configurando dónde escribe.
-2. **Dependencias**: número de crates que añade al proyecto, contados con `cargo tree`.
-3. **Coste de ejecución**: tiempo de ejecutar los tests, medido en `rust:1.99.0-slim`.
+2. **Coste de ejecución**: tiempo de ejecutar los tests, medido en `rust:1.99.0-slim`.
 
 ## Herramientas consideradas
 
