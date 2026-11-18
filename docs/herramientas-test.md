@@ -48,8 +48,8 @@ Por orden de prioridad:
 
 `rstest-bdd` y `spectacular`, los marcos que salen al buscar specs y BDD, también pasan sus tests con el proyecto montado en solo lectura ([captura](../img/specs-solo-lectura.png)), y se han medido igual que los demás ([captura](../img/bibliotecas-coste.png)).
 
-- **`rstest-bdd`**: escenarios BDD en ficheros `.feature`, sobre `rstest`. Añade 159 crates. 12,225 s la primera vez, y 0,089 s y 0,087 s las siguientes.
-- **`spectacular`**: tests al estilo RSpec, con `describe` e `it`. Añade 6 crates. 2,104 s la primera vez, y 0,030 s y 0,028 s las siguientes.
+- **`rstest-bdd`**: escenarios BDD en ficheros `.feature`, sobre `rstest`. 12,225 s la primera vez, y 0,089 s y 0,087 s las siguientes.
+- **`spectacular`**: tests al estilo RSpec, con `describe` e `it`. 2,104 s la primera vez, y 0,030 s y 0,028 s las siguientes.
 
 ## Decisión
 
