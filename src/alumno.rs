@@ -1,3 +1,4 @@
+#[derive(Debug, PartialEq)]
 pub struct Alumno {
     nombre: String,
     codigo_postal: String,
