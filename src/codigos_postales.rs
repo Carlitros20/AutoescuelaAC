@@ -225,4 +225,21 @@ mod tests {
             "sin saber qué códigos tiene al lado 29001 no se puede calcular el tiempo"
         );
     }
+
+    #[test]
+    fn el_csv_de_contiguos_del_repositorio_se_carga_entero() {
+        let codigos = CodigosPostales::desde_csv(include_str!("../datos/codigos_contiguos.csv"))
+            .expect("el CSV de contiguos del repositorio debería estar bien escrito");
+
+        assert_eq!(
+            codigos.contiguos.len(),
+            16,
+            "el CSV de contiguos tiene los 16 códigos postales de Granada capital"
+        );
+        assert_eq!(
+            codigos.son_contiguos("18016", "18007"),
+            Ok(true),
+            "18016 y 18007 se tocan según el CSV de contiguos"
+        );
+    }
 }
