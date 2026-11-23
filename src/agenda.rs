@@ -27,7 +27,11 @@ impl Agenda {
         &mut self,
         inicio: SystemTime,
         clase: Clase,
+        alumnos: &AlumnosRegistrados,
     ) -> Result<(), ErrorAgregarClase> {
+        if !clase.es_de_un_alumno_registrado(alumnos) {
+            return Err(ErrorAgregarClase::AlumnoNoRegistrado);
+        }
         let anterior = self.clases.range(..=inicio).next_back();
         if anterior.is_some_and(|(&otra, _)| otra + DURACION_CLASE > inicio) {
             return Err(ErrorAgregarClase::Solapada);
@@ -90,9 +94,21 @@ mod tests {
     use super::*;
     use crate::datos_de_prueba::*;
 
+    fn agregar_clase_del_alumno(
+        agenda: &mut Agenda,
+        inicio: SystemTime,
+        numero_alumno: u32,
+    ) -> Result<(), ErrorAgregarClase> {
+        agenda.agregar_clase(
+            inicio,
+            Clase::new(numero_alumno),
+            &alumnos_en_18007_18009_y_18001(),
+        )
+    }
+
     fn agenda_con_clase_a_las_17() -> Agenda {
         let mut agenda = Agenda::new();
-        agenda.agregar_clase(hora(17, 0), Clase::new(1)).unwrap();
+        agregar_clase_del_alumno(&mut agenda, hora(17, 0), 1).unwrap();
         agenda
     }
 
@@ -164,7 +180,7 @@ mod tests {
 
     fn agenda_con_aviso_a_las_y_coche_en(aviso: SystemTime, codigo_postal: &str) -> Agenda {
         let mut agenda = Agenda::new();
-        agenda.agregar_clase(hora(17, 0), Clase::new(3)).unwrap();
+        agregar_clase_del_alumno(&mut agenda, hora(17, 0), 3).unwrap();
         agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
         agenda.registrar_ubicacion_coche(codigo_postal.to_string(), aviso);
         agenda
@@ -252,7 +268,7 @@ mod tests {
         let mut agenda = agenda_con_clase_a_las_17();
 
         assert_eq!(
-            agenda.agregar_clase(hora(17, 30), Clase::new(2)),
+            agregar_clase_del_alumno(&mut agenda, hora(17, 30), 2),
             Err(ErrorAgregarClase::Solapada),
             "la clase de las 17:00 dura hasta las 17:45, así que a las 17:30 no se puede dar otra"
         );
@@ -268,7 +284,7 @@ mod tests {
         let mut agenda = agenda_con_clase_a_las_17();
 
         assert_eq!(
-            agenda.agregar_clase(hora(16, 30), Clase::new(2)),
+            agregar_clase_del_alumno(&mut agenda, hora(16, 30), 2),
             Err(ErrorAgregarClase::Solapada),
             "una clase a las 16:30 dura hasta las 17:15 y se pisa con la de las 17:00"
         );
@@ -279,7 +295,7 @@ mod tests {
         let mut agenda = agenda_con_clase_a_las_17();
 
         assert_eq!(
-            agenda.agregar_clase(hora(17, 0), Clase::new(2)),
+            agregar_clase_del_alumno(&mut agenda, hora(17, 0), 2),
             Err(ErrorAgregarClase::Solapada),
             "a las 17:00 ya hay una clase"
         );
@@ -290,14 +306,30 @@ mod tests {
         let mut agenda = agenda_con_clase_a_las_17();
 
         assert_eq!(
-            agenda.agregar_clase(hora(17, 45), Clase::new(2)),
+            agregar_clase_del_alumno(&mut agenda, hora(17, 45), 2),
             Ok(()),
             "la clase de las 17:00 acaba a las 17:45, así que a esa hora ya se puede dar otra"
         );
         assert_eq!(
-            agenda.agregar_clase(hora(16, 15), Clase::new(3)),
+            agregar_clase_del_alumno(&mut agenda, hora(16, 15), 3),
             Ok(()),
             "una clase a las 16:15 acaba a las 17:00, justo cuando empieza la siguiente"
+        );
+    }
+
+    #[test]
+    fn una_clase_de_un_alumno_no_registrado_da_error() {
+        let mut agenda = agenda_con_clase_a_las_17();
+
+        assert_eq!(
+            agregar_clase_del_alumno(&mut agenda, hora(18, 0), 4),
+            Err(ErrorAgregarClase::AlumnoNoRegistrado),
+            "solo están registrados los alumnos 1, 2 y 3"
+        );
+        assert_eq!(
+            agenda.margen(hora(18, 0)),
+            Err(ErrorMargen::ClaseInexistente),
+            "la clase que da error no debería quedarse en la agenda"
         );
     }
 }

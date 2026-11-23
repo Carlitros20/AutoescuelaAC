@@ -1,5 +1,6 @@
 use std::time::{Duration, SystemTime};
 
+use crate::alumnos_registrados::AlumnosRegistrados;
 use crate::error_margen::ErrorMargen;
 
 pub struct Clase {
@@ -17,6 +18,10 @@ impl Clase {
 
     pub(crate) fn registrar_aviso(&mut self, instante: SystemTime) {
         self.aviso_cancelacion = Some(instante);
+    }
+
+    pub(crate) fn es_de_un_alumno_registrado(&self, alumnos: &AlumnosRegistrados) -> bool {
+        alumnos.alumno(self.numero_alumno).is_some()
     }
 
     pub(crate) fn es_del_alumno(&self, numero_alumno: u32) -> bool {
