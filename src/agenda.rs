@@ -45,7 +45,6 @@ impl Agenda {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::dni::Dni;
     use std::time::UNIX_EPOCH;
 
     fn hora(horas: u64, minutos: u64) -> SystemTime {
@@ -54,7 +53,7 @@ mod tests {
 
     fn agenda_con_clase_a_las_17() -> Agenda {
         let mut agenda = Agenda::new();
-        agenda.agregar_clase(hora(17, 0), Clase::new(Dni::new(12345678, 'Z')));
+        agenda.agregar_clase(hora(17, 0), Clase::new(1));
         agenda
     }
 

@@ -1,8 +1,8 @@
-use crate::{alumno::Alumno, dni::Dni};
+use crate::alumno::Alumno;
 use std::collections::HashMap;
 
 pub struct AlumnosRegistrados {
-    alumnos: HashMap<Dni, Alumno>,
+    alumnos: HashMap<u32, Alumno>,
 }
 
 impl AlumnosRegistrados {

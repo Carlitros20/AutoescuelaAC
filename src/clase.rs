@@ -1,17 +1,16 @@
 use std::time::{Duration, SystemTime};
 
-use crate::dni::Dni;
 use crate::error_margen::ErrorMargen;
 
 pub struct Clase {
-    dni_alumno: Dni,
+    numero_alumno: u32,
     aviso_cancelacion: Option<SystemTime>,
 }
 
 impl Clase {
-    pub(crate) fn new(dni_alumno: Dni) -> Self {
+    pub(crate) fn new(numero_alumno: u32) -> Self {
         Clase {
-            dni_alumno,
+            numero_alumno,
             aviso_cancelacion: None,
         }
     }
