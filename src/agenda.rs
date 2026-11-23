@@ -54,12 +54,18 @@ impl Agenda {
         alumnos: &AlumnosRegistrados,
         codigos: &CodigosPostales,
     ) -> Result<HashSet<u32>, ErrorBusquedaSustituto> {
-        let margen = self.margen(inicio)?;
+        let clase = self
+            .clases
+            .get(&inicio)
+            .ok_or(ErrorMargen::ClaseInexistente)?;
+        let margen = clase.margen(inicio)?;
         let ubicacion = self
             .ubicacion_coche
             .as_ref()
             .ok_or(ErrorBusquedaSustituto::SinUbicacionCoche)?;
-        Ok(ubicacion.alumnos_alcanzables(alumnos, codigos, margen)?)
+        let mut alcanzables = ubicacion.alumnos_alcanzables(alumnos, codigos, margen)?;
+        alcanzables.retain(|numero| !clase.es_del_alumno(*numero));
+        Ok(alcanzables)
     }
 }
 
@@ -159,7 +165,8 @@ mod tests {
     }
 
     fn agenda_con_aviso_a_las_y_coche_en(aviso: SystemTime, codigo_postal: &str) -> Agenda {
-        let mut agenda = agenda_con_clase_a_las_17();
+        let mut agenda = Agenda::new();
+        agenda.agregar_clase(hora(17, 0), Clase::new(3));
         agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
         agenda.registrar_ubicacion_coche(codigo_postal.to_string(), aviso);
         agenda
@@ -224,6 +231,21 @@ mod tests {
             ),
             Err(ErrorBusquedaSustituto::Margen(ErrorMargen::SinAviso)),
             "una clase sin aviso de cancelación no tiene margen con el que buscar"
+        );
+    }
+
+    #[test]
+    fn el_alumno_que_cancela_no_sale_entre_los_alcanzables() {
+        let agenda = agenda_con_aviso_a_las_y_coche_en(hora(16, 10), "18001");
+
+        assert_eq!(
+            agenda.alumnos_alcanzables(
+                hora(17, 0),
+                &alumnos_en_18007_18009_y_18001(),
+                &codigos_18007_18009_y_18009_18001_contiguos()
+            ),
+            Ok(HashSet::from([2])),
+            "el alumno 3 está en 18001 como el coche, pero es el que ha cancelado la clase"
         );
     }
 }

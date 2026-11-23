@@ -19,6 +19,10 @@ impl Clase {
         self.aviso_cancelacion = Some(instante);
     }
 
+    pub(crate) fn es_del_alumno(&self, numero_alumno: u32) -> bool {
+        self.numero_alumno == numero_alumno
+    }
+
     pub(crate) fn margen(&self, inicio: SystemTime) -> Result<Duration, ErrorMargen> {
         let aviso = self.aviso_cancelacion.ok_or(ErrorMargen::SinAviso)?;
         match inicio.duration_since(aviso) {
