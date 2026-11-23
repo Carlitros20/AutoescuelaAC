@@ -6,6 +6,10 @@ use std::time::Duration;
 
 const TIEMPO_A_UN_CONTIGUO: Duration = Duration::from_secs(10 * 60);
 
+pub(crate) fn esta_bien_escrito(codigo_postal: &str) -> bool {
+    codigo_postal.len() == 5 && codigo_postal.bytes().all(|cifra| cifra.is_ascii_digit())
+}
+
 pub struct CodigosPostales {
     contiguos: HashMap<String, HashSet<String>>,
 }
@@ -21,7 +25,7 @@ impl CodigosPostales {
         let mut codigos = CodigosPostales::new();
         for (linea, [uno, otro]) in filas_csv(csv)? {
             for codigo in [uno, otro] {
-                if codigo.len() != 5 || !codigo.bytes().all(|c| c.is_ascii_digit()) {
+                if !esta_bien_escrito(codigo) {
                     return Err(ErrorCargaCsv::CodigoPostalMalEscrito(linea));
                 }
             }
@@ -151,9 +155,17 @@ mod tests {
             Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "1809 tiene cuatro cifras en vez de cinco"
         );
-        assert_eq!(
-            cargar("18O07,18009\n").err(),
-            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
+    }
+
+    #[test]
+    fn un_codigo_postal_esta_bien_escrito_si_tiene_cinco_cifras() {
+        assert!(esta_bien_escrito("18007"), "18007 tiene cinco cifras");
+        assert!(
+            !esta_bien_escrito("1807"),
+            "1807 tiene cuatro cifras en vez de cinco"
+        );
+        assert!(
+            !esta_bien_escrito("18O07"),
             "18O07 lleva una O en vez de un cero"
         );
     }

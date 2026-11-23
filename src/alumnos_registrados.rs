@@ -1,5 +1,5 @@
 use crate::alumno::Alumno;
-use crate::codigos_postales::CodigosPostales;
+use crate::codigos_postales::{CodigosPostales, esta_bien_escrito};
 use crate::error_carga_csv::ErrorCargaCsv;
 use crate::error_codigo_postal::ErrorCodigoPostal;
 use crate::filas_csv::filas_csv;
@@ -23,7 +23,7 @@ impl AlumnosRegistrados {
             let numero: u32 = numero
                 .parse()
                 .map_err(|_| ErrorCargaCsv::NumeroMalEscrito(linea))?;
-            if codigo_postal.len() != 5 || !codigo_postal.bytes().all(|c| c.is_ascii_digit()) {
+            if !esta_bien_escrito(codigo_postal) {
                 return Err(ErrorCargaCsv::CodigoPostalMalEscrito(linea));
             }
             if registrados.alumnos.contains_key(&numero) {
@@ -99,11 +99,6 @@ mod tests {
             cargar("1,Lu*** Ga***,45*******,1807\n").err(),
             Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "1807 tiene cuatro cifras en vez de cinco"
-        );
-        assert_eq!(
-            cargar("1,Lu*** Ga***,45*******,18O07\n").err(),
-            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
-            "18O07 lleva una O en vez de un cero"
         );
     }
 
