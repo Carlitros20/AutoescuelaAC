@@ -1,5 +1,8 @@
 use crate::error_codigo_postal::ErrorCodigoPostal;
 use std::collections::{HashMap, HashSet};
+use std::time::Duration;
+
+const TIEMPO_A_UN_CONTIGUO: Duration = Duration::from_secs(10 * 60);
 
 pub struct CodigosPostales {
     contiguos: HashMap<String, HashSet<String>>,
@@ -32,6 +35,20 @@ impl CodigosPostales {
             return Err(ErrorCodigoPostal::Desconocido);
         }
         Ok(contiguos.contains(otro))
+    }
+
+    pub fn tiempo_de_trayecto(
+        &self,
+        origen: &str,
+        destino: &str,
+    ) -> Result<Option<Duration>, ErrorCodigoPostal> {
+        if self.son_contiguos(origen, destino)? {
+            Ok(Some(TIEMPO_A_UN_CONTIGUO))
+        } else if origen == destino {
+            Ok(Some(Duration::ZERO))
+        } else {
+            Ok(None)
+        }
     }
 }
 
@@ -86,6 +103,50 @@ mod tests {
             codigos.son_contiguos("29001", "18007"),
             Err(ErrorCodigoPostal::Desconocido),
             "29001 no está en los datos, así que no se puede saber si es contiguo"
+        );
+    }
+
+    #[test]
+    fn en_el_mismo_codigo_postal_no_hay_que_desplazarse() {
+        let codigos = codigos_18007_18009_y_18009_18001_contiguos();
+
+        assert_eq!(
+            codigos.tiempo_de_trayecto("18009", "18009"),
+            Ok(Some(Duration::ZERO)),
+            "en el mismo código postal el tiempo de trayecto debería ser 0"
+        );
+    }
+
+    #[test]
+    fn a_un_codigo_postal_contiguo_se_tarda_10_minutos() {
+        let codigos = codigos_18007_18009_y_18009_18001_contiguos();
+
+        assert_eq!(
+            codigos.tiempo_de_trayecto("18007", "18009"),
+            Ok(Some(Duration::from_secs(10 * 60))),
+            "a un código postal contiguo se debería tardar 10 minutos"
+        );
+    }
+
+    #[test]
+    fn a_un_codigo_postal_no_contiguo_no_se_llega() {
+        let codigos = codigos_18007_18009_y_18009_18001_contiguos();
+
+        assert_eq!(
+            codigos.tiempo_de_trayecto("18007", "18001"),
+            Ok(None),
+            "a un código postal que no es contiguo no se debería llegar"
+        );
+    }
+
+    #[test]
+    fn el_tiempo_de_trayecto_a_un_codigo_postal_desconocido_da_error() {
+        let codigos = codigos_18007_18009_y_18009_18001_contiguos();
+
+        assert_eq!(
+            codigos.tiempo_de_trayecto("18007", "29001"),
+            Err(ErrorCodigoPostal::Desconocido),
+            "sin saber qué códigos tiene al lado 29001 no se puede calcular el tiempo"
         );
     }
 }
