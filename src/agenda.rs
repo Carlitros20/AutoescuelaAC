@@ -88,11 +88,7 @@ impl Agenda {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::UNIX_EPOCH;
-
-    fn hora(horas: u64, minutos: u64) -> SystemTime {
-        UNIX_EPOCH + Duration::from_secs(horas * 3600 + minutos * 60)
-    }
+    use crate::datos_de_prueba::*;
 
     fn agenda_con_clase_a_las_17() -> Agenda {
         let mut agenda = Agenda::new();
@@ -110,7 +106,7 @@ mod tests {
     fn aviso_a_las_1610_para_clase_a_las_17_deja_50_minutos() {
         assert_eq!(
             margen_con_aviso_a_las(hora(16, 10)),
-            Ok(Duration::from_secs(50 * 60)),
+            Ok(minutos(50)),
             "un aviso a las 16:10 para una clase a las 17:00 debería dejar 50 minutos de margen"
         );
     }
@@ -164,20 +160,6 @@ mod tests {
             Err(ErrorMargen::ClaseInexistente),
             "no debería poder registrarse un aviso a una hora sin clase"
         );
-    }
-
-    fn alumnos_en_18007_18009_y_18001() -> AlumnosRegistrados {
-        AlumnosRegistrados::desde_csv(
-            "numero,nombre,dni,codigo_postal\n1,Lu*** Ga***,45*******,18007\n2,Ma*** Ro***,74*******,18009\n3,An*** Ló***,26*******,18001\n",
-        )
-        .expect("un CSV bien escrito debería cargarse")
-    }
-
-    fn codigos_18007_18009_y_18009_18001_contiguos() -> CodigosPostales {
-        let mut codigos = CodigosPostales::new();
-        codigos.agregar_contiguos("18007", "18009");
-        codigos.agregar_contiguos("18009", "18001");
-        codigos
     }
 
     fn agenda_con_aviso_a_las_y_coche_en(aviso: SystemTime, codigo_postal: &str) -> Agenda {

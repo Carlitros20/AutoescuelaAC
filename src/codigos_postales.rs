@@ -74,13 +74,7 @@ impl CodigosPostales {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    fn codigos_18007_18009_y_18009_18001_contiguos() -> CodigosPostales {
-        let mut codigos = CodigosPostales::new();
-        codigos.agregar_contiguos("18007", "18009");
-        codigos.agregar_contiguos("18009", "18001");
-        codigos
-    }
+    use crate::datos_de_prueba::*;
 
     #[test]
     fn dos_codigos_agregados_como_contiguos_lo_son_en_los_dos_sentidos() {
@@ -187,7 +181,7 @@ mod tests {
 
         assert_eq!(
             codigos.tiempo_de_trayecto("18007", "18009"),
-            Ok(Some(Duration::from_secs(10 * 60))),
+            Ok(Some(minutos(10))),
             "a un código postal contiguo se debería tardar 10 minutos"
         );
     }

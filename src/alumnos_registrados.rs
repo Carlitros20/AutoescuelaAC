@@ -60,6 +60,7 @@ impl AlumnosRegistrados {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::datos_de_prueba::*;
 
     const CABECERA: &str = "numero,nombre,dni,codigo_postal\n";
 
@@ -109,22 +110,6 @@ mod tests {
             Some(ErrorCargaCsv::NumeroRepetido(1)),
             "el número 1 está dos veces, así que no se sabe cuál es el alumno 1"
         );
-    }
-
-    fn alumnos_en_18007_18009_y_18001() -> AlumnosRegistrados {
-        cargar("1,Lu*** Ga***,45*******,18007\n2,Ma*** Ro***,74*******,18009\n3,An*** Ló***,26*******,18001\n")
-            .expect("un CSV bien escrito debería cargarse")
-    }
-
-    fn codigos_18007_18009_y_18009_18001_contiguos() -> CodigosPostales {
-        let mut codigos = CodigosPostales::new();
-        codigos.agregar_contiguos("18007", "18009");
-        codigos.agregar_contiguos("18009", "18001");
-        codigos
-    }
-
-    fn minutos(minutos: u64) -> Duration {
-        Duration::from_secs(minutos * 60)
     }
 
     #[test]
