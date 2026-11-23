@@ -1,5 +1,6 @@
 use crate::error_carga_csv::ErrorCargaCsv;
 use crate::error_codigo_postal::ErrorCodigoPostal;
+use crate::filas_csv::filas_csv;
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
 
@@ -18,18 +19,7 @@ impl CodigosPostales {
 
     pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaCsv> {
         let mut codigos = CodigosPostales::new();
-        for (indice, fila) in csv.lines().enumerate().skip(1) {
-            if fila.trim().is_empty() {
-                continue;
-            }
-            let linea = indice + 1;
-            let campos: Vec<&str> = fila.split(',').map(str::trim).collect();
-            let [uno, otro] = campos[..] else {
-                return Err(ErrorCargaCsv::FilaIncompleta(linea));
-            };
-            if uno.is_empty() || otro.is_empty() {
-                return Err(ErrorCargaCsv::FilaIncompleta(linea));
-            }
+        for (linea, [uno, otro]) in filas_csv(csv)? {
             for codigo in [uno, otro] {
                 if codigo.len() != 5 || !codigo.bytes().all(|c| c.is_ascii_digit()) {
                     return Err(ErrorCargaCsv::CodigoPostalMalEscrito(linea));
@@ -151,20 +141,6 @@ mod tests {
             codigos.son_contiguos("18007", "18001"),
             Ok(false),
             "18007 y 18001 no están en el CSV como contiguos"
-        );
-    }
-
-    #[test]
-    fn una_fila_del_csv_de_contiguos_a_la_que_le_falta_un_codigo_da_error() {
-        assert_eq!(
-            cargar("18007,18009\n18009,\n").err(),
-            Some(ErrorCargaCsv::FilaIncompleta(3)),
-            "a la fila de la línea 3 le falta el código contiguo"
-        );
-        assert_eq!(
-            cargar("18007\n").err(),
-            Some(ErrorCargaCsv::FilaIncompleta(2)),
-            "la fila de la línea 2 solo tiene un código"
         );
     }
 

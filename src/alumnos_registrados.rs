@@ -2,6 +2,7 @@ use crate::alumno::Alumno;
 use crate::codigos_postales::CodigosPostales;
 use crate::error_carga_csv::ErrorCargaCsv;
 use crate::error_codigo_postal::ErrorCodigoPostal;
+use crate::filas_csv::filas_csv;
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
 
@@ -18,21 +19,7 @@ impl AlumnosRegistrados {
 
     pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaCsv> {
         let mut registrados = AlumnosRegistrados::new();
-        for (indice, fila) in csv.lines().enumerate().skip(1) {
-            if fila.trim().is_empty() {
-                continue;
-            }
-            let linea = indice + 1;
-            let campos: Vec<&str> = fila.split(',').map(str::trim).collect();
-            let [numero, nombre, _dni, codigo_postal] = campos[..] else {
-                return Err(ErrorCargaCsv::FilaIncompleta(linea));
-            };
-            if [numero, nombre, codigo_postal]
-                .iter()
-                .any(|campo| campo.is_empty())
-            {
-                return Err(ErrorCargaCsv::FilaIncompleta(linea));
-            }
+        for (linea, [numero, nombre, _dni, codigo_postal]) in filas_csv(csv)? {
             let numero: u32 = numero
                 .parse()
                 .map_err(|_| ErrorCargaCsv::NumeroMalEscrito(linea))?;
@@ -94,20 +81,6 @@ mod tests {
             alumnos.alumno(3),
             None,
             "el alumno 3 no está en el CSV, así que no debería estar registrado"
-        );
-    }
-
-    #[test]
-    fn una_fila_a_la_que_le_falta_un_dato_da_error() {
-        assert_eq!(
-            cargar("1,Lu*** Ga***,45*******,18007\n2,Ma*** Ro***,74*******,\n").err(),
-            Some(ErrorCargaCsv::FilaIncompleta(3)),
-            "a la fila de la línea 3 le falta el código postal"
-        );
-        assert_eq!(
-            cargar("1,Lu*** Ga***,18007\n").err(),
-            Some(ErrorCargaCsv::FilaIncompleta(2)),
-            "a la fila de la línea 2 le falta una columna"
         );
     }
 

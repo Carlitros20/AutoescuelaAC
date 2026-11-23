@@ -8,4 +8,5 @@ pub mod error_busqueda_sustituto;
 pub mod error_carga_csv;
 pub mod error_codigo_postal;
 pub mod error_margen;
+mod filas_csv;
 pub mod ubicacion_coche;
