@@ -1,6 +1,6 @@
 use crate::alumno::Alumno;
 use crate::codigos_postales::CodigosPostales;
-use crate::error_carga_alumnos::ErrorCargaAlumnos;
+use crate::error_carga_csv::ErrorCargaCsv;
 use crate::error_codigo_postal::ErrorCodigoPostal;
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
@@ -16,7 +16,7 @@ impl AlumnosRegistrados {
         }
     }
 
-    pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaAlumnos> {
+    pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaCsv> {
         let mut registrados = AlumnosRegistrados::new();
         for (indice, fila) in csv.lines().enumerate().skip(1) {
             if fila.trim().is_empty() {
@@ -25,22 +25,22 @@ impl AlumnosRegistrados {
             let linea = indice + 1;
             let campos: Vec<&str> = fila.split(',').map(str::trim).collect();
             let [numero, nombre, _dni, codigo_postal] = campos[..] else {
-                return Err(ErrorCargaAlumnos::FilaIncompleta(linea));
+                return Err(ErrorCargaCsv::FilaIncompleta(linea));
             };
             if [numero, nombre, codigo_postal]
                 .iter()
                 .any(|campo| campo.is_empty())
             {
-                return Err(ErrorCargaAlumnos::FilaIncompleta(linea));
+                return Err(ErrorCargaCsv::FilaIncompleta(linea));
             }
             let numero: u32 = numero
                 .parse()
-                .map_err(|_| ErrorCargaAlumnos::NumeroMalEscrito(linea))?;
+                .map_err(|_| ErrorCargaCsv::NumeroMalEscrito(linea))?;
             if codigo_postal.len() != 5 || !codigo_postal.bytes().all(|c| c.is_ascii_digit()) {
-                return Err(ErrorCargaAlumnos::CodigoPostalMalEscrito(linea));
+                return Err(ErrorCargaCsv::CodigoPostalMalEscrito(linea));
             }
             if registrados.alumnos.contains_key(&numero) {
-                return Err(ErrorCargaAlumnos::NumeroRepetido(numero));
+                return Err(ErrorCargaCsv::NumeroRepetido(numero));
             }
             registrados.alumnos.insert(
                 numero,
@@ -76,7 +76,7 @@ mod tests {
 
     const CABECERA: &str = "numero,nombre,dni,codigo_postal\n";
 
-    fn cargar(filas: &str) -> Result<AlumnosRegistrados, ErrorCargaAlumnos> {
+    fn cargar(filas: &str) -> Result<AlumnosRegistrados, ErrorCargaCsv> {
         AlumnosRegistrados::desde_csv(&format!("{CABECERA}{filas}"))
     }
 
@@ -101,12 +101,12 @@ mod tests {
     fn una_fila_a_la_que_le_falta_un_dato_da_error() {
         assert_eq!(
             cargar("1,Lu*** Ga***,45*******,18007\n2,Ma*** Ro***,74*******,\n").err(),
-            Some(ErrorCargaAlumnos::FilaIncompleta(3)),
+            Some(ErrorCargaCsv::FilaIncompleta(3)),
             "a la fila de la línea 3 le falta el código postal"
         );
         assert_eq!(
             cargar("1,Lu*** Ga***,18007\n").err(),
-            Some(ErrorCargaAlumnos::FilaIncompleta(2)),
+            Some(ErrorCargaCsv::FilaIncompleta(2)),
             "a la fila de la línea 2 le falta una columna"
         );
     }
@@ -115,7 +115,7 @@ mod tests {
     fn un_numero_de_alumno_que_no_es_un_numero_da_error() {
         assert_eq!(
             cargar("uno,Lu*** Ga***,45*******,18007\n").err(),
-            Some(ErrorCargaAlumnos::NumeroMalEscrito(2)),
+            Some(ErrorCargaCsv::NumeroMalEscrito(2)),
             "\"uno\" no es un número de alumno"
         );
     }
@@ -124,12 +124,12 @@ mod tests {
     fn un_codigo_postal_mal_escrito_da_error() {
         assert_eq!(
             cargar("1,Lu*** Ga***,45*******,1807\n").err(),
-            Some(ErrorCargaAlumnos::CodigoPostalMalEscrito(2)),
+            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "1807 tiene cuatro cifras en vez de cinco"
         );
         assert_eq!(
             cargar("1,Lu*** Ga***,45*******,18O07\n").err(),
-            Some(ErrorCargaAlumnos::CodigoPostalMalEscrito(2)),
+            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "18O07 lleva una O en vez de un cero"
         );
     }
@@ -138,7 +138,7 @@ mod tests {
     fn dos_alumnos_con_el_mismo_numero_dan_error() {
         assert_eq!(
             cargar("1,Lu*** Ga***,45*******,18007\n1,Ma*** Ro***,74*******,18014\n").err(),
-            Some(ErrorCargaAlumnos::NumeroRepetido(1)),
+            Some(ErrorCargaCsv::NumeroRepetido(1)),
             "el número 1 está dos veces, así que no se sabe cuál es el alumno 1"
         );
     }

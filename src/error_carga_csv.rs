@@ -1,5 +1,5 @@
 #[derive(Debug, PartialEq)]
-pub enum ErrorCargaAlumnos {
+pub enum ErrorCargaCsv {
     FilaIncompleta(usize),
     NumeroMalEscrito(usize),
     CodigoPostalMalEscrito(usize),

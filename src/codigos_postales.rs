@@ -1,4 +1,4 @@
-use crate::error_carga_codigos_postales::ErrorCargaCodigosPostales;
+use crate::error_carga_csv::ErrorCargaCsv;
 use crate::error_codigo_postal::ErrorCodigoPostal;
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
@@ -16,7 +16,7 @@ impl CodigosPostales {
         }
     }
 
-    pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaCodigosPostales> {
+    pub fn desde_csv(csv: &str) -> Result<Self, ErrorCargaCsv> {
         let mut codigos = CodigosPostales::new();
         for (indice, fila) in csv.lines().enumerate().skip(1) {
             if fila.trim().is_empty() {
@@ -25,14 +25,14 @@ impl CodigosPostales {
             let linea = indice + 1;
             let campos: Vec<&str> = fila.split(',').map(str::trim).collect();
             let [uno, otro] = campos[..] else {
-                return Err(ErrorCargaCodigosPostales::FilaIncompleta(linea));
+                return Err(ErrorCargaCsv::FilaIncompleta(linea));
             };
             if uno.is_empty() || otro.is_empty() {
-                return Err(ErrorCargaCodigosPostales::FilaIncompleta(linea));
+                return Err(ErrorCargaCsv::FilaIncompleta(linea));
             }
             for codigo in [uno, otro] {
                 if codigo.len() != 5 || !codigo.bytes().all(|c| c.is_ascii_digit()) {
-                    return Err(ErrorCargaCodigosPostales::CodigoPostalMalEscrito(linea));
+                    return Err(ErrorCargaCsv::CodigoPostalMalEscrito(linea));
                 }
             }
             codigos.agregar_contiguos(uno, otro);
@@ -133,7 +133,7 @@ mod tests {
 
     const CABECERA: &str = "codigo_postal,contiguo\n";
 
-    fn cargar(filas: &str) -> Result<CodigosPostales, ErrorCargaCodigosPostales> {
+    fn cargar(filas: &str) -> Result<CodigosPostales, ErrorCargaCsv> {
         CodigosPostales::desde_csv(&format!("{CABECERA}{filas}"))
     }
 
@@ -158,12 +158,12 @@ mod tests {
     fn una_fila_del_csv_de_contiguos_a_la_que_le_falta_un_codigo_da_error() {
         assert_eq!(
             cargar("18007,18009\n18009,\n").err(),
-            Some(ErrorCargaCodigosPostales::FilaIncompleta(3)),
+            Some(ErrorCargaCsv::FilaIncompleta(3)),
             "a la fila de la línea 3 le falta el código contiguo"
         );
         assert_eq!(
             cargar("18007\n").err(),
-            Some(ErrorCargaCodigosPostales::FilaIncompleta(2)),
+            Some(ErrorCargaCsv::FilaIncompleta(2)),
             "la fila de la línea 2 solo tiene un código"
         );
     }
@@ -172,12 +172,12 @@ mod tests {
     fn un_codigo_postal_mal_escrito_en_el_csv_de_contiguos_da_error() {
         assert_eq!(
             cargar("18007,1809\n").err(),
-            Some(ErrorCargaCodigosPostales::CodigoPostalMalEscrito(2)),
+            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "1809 tiene cuatro cifras en vez de cinco"
         );
         assert_eq!(
             cargar("18O07,18009\n").err(),
-            Some(ErrorCargaCodigosPostales::CodigoPostalMalEscrito(2)),
+            Some(ErrorCargaCsv::CodigoPostalMalEscrito(2)),
             "18O07 lleva una O en vez de un cero"
         );
     }
