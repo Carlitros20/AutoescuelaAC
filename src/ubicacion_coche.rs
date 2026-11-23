@@ -1,13 +1,15 @@
-use crate::coordenadas::Coordenadas;
 use std::time::SystemTime;
 
 pub struct UbicacionCoche {
-    ubi: Coordenadas,
+    codigo_postal: String,
     instante: SystemTime,
 }
 
 impl UbicacionCoche {
-    pub(crate) fn new(ubi: Coordenadas, instante: SystemTime) -> Self {
-        UbicacionCoche { ubi, instante }
+    pub(crate) fn new(codigo_postal: String, instante: SystemTime) -> Self {
+        UbicacionCoche {
+            codigo_postal,
+            instante,
+        }
     }
 }

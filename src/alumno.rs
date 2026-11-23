@@ -1,12 +1,13 @@
-use crate::coordenadas::Coordenadas;
-
 pub struct Alumno {
     nombre: String,
-    direccion: Coordenadas,
+    codigo_postal: String,
 }
 
 impl Alumno {
-    pub(crate) fn new(nombre: String, direccion: Coordenadas) -> Self {
-        Alumno { nombre, direccion }
+    pub(crate) fn new(nombre: String, codigo_postal: String) -> Self {
+        Alumno {
+            nombre,
+            codigo_postal,
+        }
     }
 }
