@@ -124,4 +124,16 @@ mod tests {
             "el número 1 está dos veces, así que no se sabe cuál es el alumno 1"
         );
     }
+
+    #[test]
+    fn el_csv_de_alumnos_del_repositorio_se_carga_entero() {
+        let alumnos = AlumnosRegistrados::desde_csv(include_str!("../datos/alumnos.csv"))
+            .expect("el CSV de alumnos del repositorio debería estar bien escrito");
+
+        assert_eq!(
+            alumnos.alumnos.len(),
+            25,
+            "el CSV de alumnos tiene 25 filas, así que debería haber 25 alumnos registrados"
+        );
+    }
 }
