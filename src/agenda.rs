@@ -1,11 +1,14 @@
 use crate::alumnos_registrados::AlumnosRegistrados;
 use crate::clase::Clase;
 use crate::codigos_postales::CodigosPostales;
+use crate::error_agregar_clase::ErrorAgregarClase;
 use crate::error_busqueda_sustituto::ErrorBusquedaSustituto;
 use crate::error_margen::ErrorMargen;
 use crate::ubicacion_coche::UbicacionCoche;
 use std::collections::{BTreeMap, HashSet};
 use std::time::{Duration, SystemTime};
+
+const DURACION_CLASE: Duration = Duration::from_secs(45 * 60);
 
 pub struct Agenda {
     clases: BTreeMap<SystemTime, Clase>,
@@ -20,8 +23,21 @@ impl Agenda {
         }
     }
 
-    pub fn agregar_clase(&mut self, inicio: SystemTime, clase: Clase) {
+    pub fn agregar_clase(
+        &mut self,
+        inicio: SystemTime,
+        clase: Clase,
+    ) -> Result<(), ErrorAgregarClase> {
+        let anterior = self.clases.range(..=inicio).next_back();
+        if anterior.is_some_and(|(&otra, _)| otra + DURACION_CLASE > inicio) {
+            return Err(ErrorAgregarClase::Solapada);
+        }
+        let siguiente = self.clases.range(inicio..).next();
+        if siguiente.is_some_and(|(&otra, _)| inicio + DURACION_CLASE > otra) {
+            return Err(ErrorAgregarClase::Solapada);
+        }
         self.clases.insert(inicio, clase);
+        Ok(())
     }
 
     pub fn registrar_aviso(
@@ -80,7 +96,7 @@ mod tests {
 
     fn agenda_con_clase_a_las_17() -> Agenda {
         let mut agenda = Agenda::new();
-        agenda.agregar_clase(hora(17, 0), Clase::new(1));
+        agenda.agregar_clase(hora(17, 0), Clase::new(1)).unwrap();
         agenda
     }
 
@@ -166,7 +182,7 @@ mod tests {
 
     fn agenda_con_aviso_a_las_y_coche_en(aviso: SystemTime, codigo_postal: &str) -> Agenda {
         let mut agenda = Agenda::new();
-        agenda.agregar_clase(hora(17, 0), Clase::new(3));
+        agenda.agregar_clase(hora(17, 0), Clase::new(3)).unwrap();
         agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
         agenda.registrar_ubicacion_coche(codigo_postal.to_string(), aviso);
         agenda
@@ -246,6 +262,60 @@ mod tests {
             ),
             Ok(HashSet::from([2])),
             "el alumno 3 está en 18001 como el coche, pero es el que ha cancelado la clase"
+        );
+    }
+
+    #[test]
+    fn una_clase_que_empieza_antes_de_que_acabe_la_anterior_da_error() {
+        let mut agenda = agenda_con_clase_a_las_17();
+
+        assert_eq!(
+            agenda.agregar_clase(hora(17, 30), Clase::new(2)),
+            Err(ErrorAgregarClase::Solapada),
+            "la clase de las 17:00 dura hasta las 17:45, así que a las 17:30 no se puede dar otra"
+        );
+        assert_eq!(
+            agenda.margen(hora(17, 30)),
+            Err(ErrorMargen::ClaseInexistente),
+            "la clase que da error no debería quedarse en la agenda"
+        );
+    }
+
+    #[test]
+    fn una_clase_que_acaba_despues_de_que_empiece_la_siguiente_da_error() {
+        let mut agenda = agenda_con_clase_a_las_17();
+
+        assert_eq!(
+            agenda.agregar_clase(hora(16, 30), Clase::new(2)),
+            Err(ErrorAgregarClase::Solapada),
+            "una clase a las 16:30 dura hasta las 17:15 y se pisa con la de las 17:00"
+        );
+    }
+
+    #[test]
+    fn una_clase_a_la_misma_hora_que_otra_da_error() {
+        let mut agenda = agenda_con_clase_a_las_17();
+
+        assert_eq!(
+            agenda.agregar_clase(hora(17, 0), Clase::new(2)),
+            Err(ErrorAgregarClase::Solapada),
+            "a las 17:00 ya hay una clase"
+        );
+    }
+
+    #[test]
+    fn una_clase_justo_cuando_acaba_otra_se_puede_agregar() {
+        let mut agenda = agenda_con_clase_a_las_17();
+
+        assert_eq!(
+            agenda.agregar_clase(hora(17, 45), Clase::new(2)),
+            Ok(()),
+            "la clase de las 17:00 acaba a las 17:45, así que a esa hora ya se puede dar otra"
+        );
+        assert_eq!(
+            agenda.agregar_clase(hora(16, 15), Clase::new(3)),
+            Ok(()),
+            "una clase a las 16:15 acaba a las 17:00, justo cuando empieza la siguiente"
         );
     }
 }
