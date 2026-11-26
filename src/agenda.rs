@@ -29,8 +29,9 @@ impl Agenda {
     pub fn agregar_clase(
         &mut self,
         inicio: SystemTime,
-        clase: Clase,
+        numero_alumno: u32,
     ) -> Result<(), ErrorAgregarClase> {
+        let clase = Clase::new(numero_alumno);
         if !clase.es_de_un_alumno_registrado(&self.alumnos) {
             return Err(ErrorAgregarClase::AlumnoNoRegistrado);
         }
@@ -108,7 +109,7 @@ mod tests {
         inicio: SystemTime,
         numero_alumno: u32,
     ) -> Result<(), ErrorAgregarClase> {
-        agenda.agregar_clase(inicio, Clase::new(numero_alumno))
+        agenda.agregar_clase(inicio, numero_alumno)
     }
 
     fn agenda_con_clase_a_las_17() -> Agenda {
