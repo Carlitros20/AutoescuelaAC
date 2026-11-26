@@ -4,7 +4,6 @@ use crate::codigos_postales::CodigosPostales;
 use crate::error_agregar_clase::ErrorAgregarClase;
 use crate::error_busqueda_sustituto::ErrorBusquedaSustituto;
 use crate::error_margen::ErrorMargen;
-use crate::ubicacion_coche::UbicacionCoche;
 use std::collections::{BTreeMap, HashSet};
 use std::time::{Duration, SystemTime};
 
@@ -12,7 +11,7 @@ const DURACION_CLASE: Duration = Duration::from_secs(45 * 60);
 
 pub struct Agenda {
     clases: BTreeMap<SystemTime, Clase>,
-    ubicacion_coche: Option<UbicacionCoche>,
+    codigo_postal_coche: Option<String>,
     alumnos: AlumnosRegistrados,
     codigos: CodigosPostales,
 }
@@ -21,7 +20,7 @@ impl Agenda {
     pub fn new(alumnos: AlumnosRegistrados, codigos: CodigosPostales) -> Self {
         Agenda {
             clases: BTreeMap::new(),
-            ubicacion_coche: None,
+            codigo_postal_coche: None,
             alumnos,
             codigos,
         }
@@ -67,8 +66,8 @@ impl Agenda {
             .margen(inicio)
     }
 
-    pub fn registrar_ubicacion_coche(&mut self, codigo_postal: String, instante: SystemTime) {
-        self.ubicacion_coche = Some(UbicacionCoche::new(codigo_postal, instante));
+    pub fn registrar_ubicacion_coche(&mut self, codigo_postal: String) {
+        self.codigo_postal_coche = Some(codigo_postal);
     }
 
     pub fn alumnos_alcanzables(
@@ -80,12 +79,13 @@ impl Agenda {
             .get(&inicio)
             .ok_or(ErrorMargen::ClaseInexistente)?;
         let margen = clase.margen(inicio)?;
-        let ubicacion = self
-            .ubicacion_coche
+        let codigo_postal_coche = self
+            .codigo_postal_coche
             .as_ref()
             .ok_or(ErrorBusquedaSustituto::SinUbicacionCoche)?;
         let mut alcanzables =
-            ubicacion.alumnos_alcanzables(&self.alumnos, &self.codigos, margen)?;
+            self.alumnos
+                .alcanzables(&self.codigos, codigo_postal_coche, margen)?;
         alcanzables.retain(|numero| !clase.es_del_alumno(*numero));
         Ok(alcanzables)
     }
@@ -187,7 +187,7 @@ mod tests {
         let mut agenda = agenda_vacia();
         agregar_clase_del_alumno(&mut agenda, hora(17, 0), 3).unwrap();
         agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
-        agenda.registrar_ubicacion_coche(codigo_postal.to_string(), aviso);
+        agenda.registrar_ubicacion_coche(codigo_postal.to_string());
         agenda
     }
 
@@ -228,7 +228,7 @@ mod tests {
     #[test]
     fn sin_margen_no_se_puede_buscar_sustituto() {
         let mut agenda = agenda_con_clase_a_las_17();
-        agenda.registrar_ubicacion_coche("18007".to_string(), hora(16, 10));
+        agenda.registrar_ubicacion_coche("18007".to_string());
 
         assert_eq!(
             agenda.alumnos_alcanzables(hora(17, 0)),
