@@ -192,7 +192,7 @@ mod tests {
 
     #[test]
     fn el_csv_de_alumnos_del_repositorio_se_carga_entero() {
-        let alumnos = AlumnosRegistrados::desde_csv(include_str!("../datos/alumnos.csv"))
+        let alumnos = AlumnosRegistrados::desde_csv(include_str!("../tests/fixtures/alumnos.csv"))
             .expect("el CSV de alumnos del repositorio debería estar bien escrito");
 
         assert_eq!(
