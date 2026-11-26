@@ -13,32 +13,43 @@ fn hora(horas: u64, minutos: u64) -> SystemTime {
     UNIX_EPOCH + Duration::from_secs(horas * 3600 + minutos * 60)
 }
 
-fn agenda_con_los_alumnos_y_codigos_de_granada() -> Agenda {
-    let alumnos = AlumnosRegistrados::desde_csv(include_str!("fixtures/alumnos.csv"))
-        .expect("el CSV de los 25 alumnos debería cargarse");
+fn agenda_con_clase_del_alumno_1_a_las_17_entre(alumnos_csv: &str) -> Agenda {
+    let alumnos =
+        AlumnosRegistrados::desde_csv(alumnos_csv).expect("el CSV de alumnos debería cargarse");
     let codigos = CodigosPostales::desde_csv(include_str!("../datos/codigos_contiguos.csv"))
         .expect("el CSV de códigos postales contiguos debería cargarse");
-    Agenda::new(alumnos, codigos)
-}
-
-fn agenda_con_clase_del_alumno_1_a_las_17() -> Agenda {
-    let mut agenda = agenda_con_los_alumnos_y_codigos_de_granada();
+    let mut agenda = Agenda::new(alumnos, codigos);
     agenda
         .agregar_clase(hora(17, 0), 1)
         .expect("el alumno 1 está registrado y la agenda está vacía");
     agenda
 }
 
-fn alcanzables_con_aviso_a_las_y_coche_en(
+fn agenda_con_clase_del_alumno_1_a_las_17() -> Agenda {
+    agenda_con_clase_del_alumno_1_a_las_17_entre(include_str!("fixtures/alumnos.csv"))
+}
+
+fn buscar_sustituto(
+    mut agenda: Agenda,
     aviso: SystemTime,
     codigo_postal_coche: &str,
 ) -> Result<HashSet<u32>, ErrorBusquedaSustituto> {
-    let mut agenda = agenda_con_clase_del_alumno_1_a_las_17();
     agenda
         .registrar_aviso(hora(17, 0), aviso)
         .expect("a las 17:00 hay una clase");
     agenda.registrar_ubicacion_coche(codigo_postal_coche.to_string());
     agenda.alumnos_alcanzables(hora(17, 0))
+}
+
+fn alcanzables_con_aviso_a_las_y_coche_en(
+    aviso: SystemTime,
+    codigo_postal_coche: &str,
+) -> Result<HashSet<u32>, ErrorBusquedaSustituto> {
+    buscar_sustituto(
+        agenda_con_clase_del_alumno_1_a_las_17(),
+        aviso,
+        codigo_postal_coche,
+    )
 }
 
 const ALUMNOS_EN_18007_Y_SUS_CONTIGUOS_SALVO_EL_1: [u32; 6] = [17, 7, 23, 4, 25, 16];
@@ -125,6 +136,21 @@ fn hu001_con_el_coche_en_un_codigo_postal_desconocido_no_se_busca_sustituto() {
             ErrorCodigoPostal::Desconocido
         )),
         "29001 no está entre los códigos postales de Granada capital"
+    );
+}
+
+#[test]
+fn hu001_con_un_alumno_en_un_codigo_postal_desconocido_no_se_busca_sustituto() {
+    let agenda = agenda_con_clase_del_alumno_1_a_las_17_entre(
+        "numero,nombre,dni,codigo_postal\n1,Lu*** Ga***,45*******,18007\n2,Ma*** Ro***,74*******,18100\n",
+    );
+
+    assert_eq!(
+        buscar_sustituto(agenda, hora(16, 10), "18007"),
+        Err(ErrorBusquedaSustituto::CodigoPostal(
+            ErrorCodigoPostal::Desconocido
+        )),
+        "18100 es de Armilla y no está entre los códigos postales de Granada capital"
     );
 }
 
