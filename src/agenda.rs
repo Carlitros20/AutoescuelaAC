@@ -13,13 +13,17 @@ const DURACION_CLASE: Duration = Duration::from_secs(45 * 60);
 pub struct Agenda {
     clases: BTreeMap<SystemTime, Clase>,
     ubicacion_coche: Option<UbicacionCoche>,
+    alumnos: AlumnosRegistrados,
+    codigos: CodigosPostales,
 }
 
 impl Agenda {
-    pub fn new() -> Self {
+    pub fn new(alumnos: AlumnosRegistrados, codigos: CodigosPostales) -> Self {
         Agenda {
             clases: BTreeMap::new(),
             ubicacion_coche: None,
+            alumnos,
+            codigos,
         }
     }
 
@@ -27,9 +31,8 @@ impl Agenda {
         &mut self,
         inicio: SystemTime,
         clase: Clase,
-        alumnos: &AlumnosRegistrados,
     ) -> Result<(), ErrorAgregarClase> {
-        if !clase.es_de_un_alumno_registrado(alumnos) {
+        if !clase.es_de_un_alumno_registrado(&self.alumnos) {
             return Err(ErrorAgregarClase::AlumnoNoRegistrado);
         }
         let anterior = self.clases.range(..=inicio).next_back();
@@ -71,8 +74,6 @@ impl Agenda {
     pub fn alumnos_alcanzables(
         &self,
         inicio: SystemTime,
-        alumnos: &AlumnosRegistrados,
-        codigos: &CodigosPostales,
     ) -> Result<HashSet<u32>, ErrorBusquedaSustituto> {
         let clase = self
             .clases
@@ -83,7 +84,8 @@ impl Agenda {
             .ubicacion_coche
             .as_ref()
             .ok_or(ErrorBusquedaSustituto::SinUbicacionCoche)?;
-        let mut alcanzables = ubicacion.alumnos_alcanzables(alumnos, codigos, margen)?;
+        let mut alcanzables =
+            ubicacion.alumnos_alcanzables(&self.alumnos, &self.codigos, margen)?;
         alcanzables.retain(|numero| !clase.es_del_alumno(*numero));
         Ok(alcanzables)
     }
@@ -94,20 +96,23 @@ mod tests {
     use super::*;
     use crate::datos_de_prueba::*;
 
+    fn agenda_vacia() -> Agenda {
+        Agenda::new(
+            alumnos_en_18007_18009_y_18001(),
+            codigos_18007_18009_y_18009_18001_contiguos(),
+        )
+    }
+
     fn agregar_clase_del_alumno(
         agenda: &mut Agenda,
         inicio: SystemTime,
         numero_alumno: u32,
     ) -> Result<(), ErrorAgregarClase> {
-        agenda.agregar_clase(
-            inicio,
-            Clase::new(numero_alumno),
-            &alumnos_en_18007_18009_y_18001(),
-        )
+        agenda.agregar_clase(inicio, Clase::new(numero_alumno))
     }
 
     fn agenda_con_clase_a_las_17() -> Agenda {
-        let mut agenda = Agenda::new();
+        let mut agenda = agenda_vacia();
         agregar_clase_del_alumno(&mut agenda, hora(17, 0), 1).unwrap();
         agenda
     }
@@ -179,7 +184,7 @@ mod tests {
     }
 
     fn agenda_con_aviso_a_las_y_coche_en(aviso: SystemTime, codigo_postal: &str) -> Agenda {
-        let mut agenda = Agenda::new();
+        let mut agenda = agenda_vacia();
         agregar_clase_del_alumno(&mut agenda, hora(17, 0), 3).unwrap();
         agenda.registrar_aviso(hora(17, 0), aviso).unwrap();
         agenda.registrar_ubicacion_coche(codigo_postal.to_string(), aviso);
@@ -191,11 +196,7 @@ mod tests {
         let agenda = agenda_con_aviso_a_las_y_coche_en(hora(16, 10), "18007");
 
         assert_eq!(
-            agenda.alumnos_alcanzables(
-                hora(17, 0),
-                &alumnos_en_18007_18009_y_18001(),
-                &codigos_18007_18009_y_18009_18001_contiguos()
-            ),
+            agenda.alumnos_alcanzables(hora(17, 0)),
             Ok(HashSet::from([1, 2])),
             "con 50 minutos de margen y el coche en 18007 se llega a 18007 y a su contiguo 18009"
         );
@@ -206,11 +207,7 @@ mod tests {
         let agenda = agenda_con_aviso_a_las_y_coche_en(hora(16, 55), "18007");
 
         assert_eq!(
-            agenda.alumnos_alcanzables(
-                hora(17, 0),
-                &alumnos_en_18007_18009_y_18001(),
-                &codigos_18007_18009_y_18009_18001_contiguos()
-            ),
+            agenda.alumnos_alcanzables(hora(17, 0)),
             Ok(HashSet::from([1])),
             "con 5 minutos de margen no da tiempo a ir a un código contiguo"
         );
@@ -222,11 +219,7 @@ mod tests {
         agenda.registrar_aviso(hora(17, 0), hora(16, 10)).unwrap();
 
         assert_eq!(
-            agenda.alumnos_alcanzables(
-                hora(17, 0),
-                &alumnos_en_18007_18009_y_18001(),
-                &codigos_18007_18009_y_18009_18001_contiguos()
-            ),
+            agenda.alumnos_alcanzables(hora(17, 0)),
             Err(ErrorBusquedaSustituto::SinUbicacionCoche),
             "sin la ubicación del coche no se sabe desde dónde se sale"
         );
@@ -238,11 +231,7 @@ mod tests {
         agenda.registrar_ubicacion_coche("18007".to_string(), hora(16, 10));
 
         assert_eq!(
-            agenda.alumnos_alcanzables(
-                hora(17, 0),
-                &alumnos_en_18007_18009_y_18001(),
-                &codigos_18007_18009_y_18009_18001_contiguos()
-            ),
+            agenda.alumnos_alcanzables(hora(17, 0)),
             Err(ErrorBusquedaSustituto::Margen(ErrorMargen::SinAviso)),
             "una clase sin aviso de cancelación no tiene margen con el que buscar"
         );
@@ -253,11 +242,7 @@ mod tests {
         let agenda = agenda_con_aviso_a_las_y_coche_en(hora(16, 10), "18001");
 
         assert_eq!(
-            agenda.alumnos_alcanzables(
-                hora(17, 0),
-                &alumnos_en_18007_18009_y_18001(),
-                &codigos_18007_18009_y_18009_18001_contiguos()
-            ),
+            agenda.alumnos_alcanzables(hora(17, 0)),
             Ok(HashSet::from([2])),
             "el alumno 3 está en 18001 como el coche, pero es el que ha cancelado la clase"
         );
