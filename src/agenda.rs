@@ -31,8 +31,7 @@ impl Agenda {
         inicio: SystemTime,
         numero_alumno: u32,
     ) -> Result<(), ErrorAgregarClase> {
-        let clase = Clase::new(numero_alumno);
-        if !clase.es_de_un_alumno_registrado(&self.alumnos) {
+        if self.alumnos.alumno(numero_alumno).is_none() {
             return Err(ErrorAgregarClase::AlumnoNoRegistrado);
         }
         let anterior = self.clases.range(..=inicio).next_back();
@@ -43,7 +42,7 @@ impl Agenda {
         if siguiente.is_some_and(|(&otra, _)| inicio + DURACION_CLASE > otra) {
             return Err(ErrorAgregarClase::Solapada);
         }
-        self.clases.insert(inicio, clase);
+        self.clases.insert(inicio, Clase::new(numero_alumno));
         Ok(())
     }
 
