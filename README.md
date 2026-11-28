@@ -79,6 +79,7 @@ make test
 - `make test` ejecuta los tests.
 
 Por qué se usan Cargo y make: [gestores de dependencias y de tareas](docs/gestores-dependencias-tareas.md).
+Con qué se escriben y ejecutan los tests: [herramientas de test](docs/herramientas-test.md).
 
 ## Planificación del proyecto
 El proyecto se ha planificado en historias de usuario, milestones y user

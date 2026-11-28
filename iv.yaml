@@ -1,5 +1,6 @@
 lenguaje: rust
-entidad: src/alumno.rs
+entidad: src/agenda.rs
 automatizar:
   fichero: Makefile
   orden: make
+test: tests/hu001.rs
