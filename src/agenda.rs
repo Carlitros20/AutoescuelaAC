@@ -86,7 +86,7 @@ impl Agenda {
         let mut alcanzables =
             self.alumnos
                 .alcanzables(&self.codigos, codigo_postal_coche, margen)?;
-        alcanzables.retain(|numero| !clase.es_del_alumno(*numero));
+        clase.quitar_su_alumno_de(&mut alcanzables);
         Ok(alcanzables)
     }
 }

@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::time::{Duration, SystemTime};
 
 use crate::error_margen::ErrorMargen;
@@ -19,8 +20,8 @@ impl Clase {
         self.aviso_cancelacion = Some(instante);
     }
 
-    pub(crate) fn es_del_alumno(&self, numero_alumno: u32) -> bool {
-        self.numero_alumno == numero_alumno
+    pub(crate) fn quitar_su_alumno_de(&self, alumnos: &mut HashSet<u32>) {
+        alumnos.remove(&self.numero_alumno);
     }
 
     pub(crate) fn margen(&self, inicio: SystemTime) -> Result<Duration, ErrorMargen> {
