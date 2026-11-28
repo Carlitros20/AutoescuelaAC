@@ -31,7 +31,7 @@ impl Agenda {
         inicio: SystemTime,
         numero_alumno: u32,
     ) -> Result<(), ErrorAgregarClase> {
-        if self.alumnos.alumno(numero_alumno).is_none() {
+        if !self.alumnos.esta_registrado(numero_alumno) {
             return Err(ErrorAgregarClase::AlumnoNoRegistrado);
         }
         let anterior = self.clases.range(..=inicio).next_back();
